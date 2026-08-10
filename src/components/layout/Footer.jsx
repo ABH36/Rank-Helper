@@ -12,11 +12,11 @@ export default function Footer() {
             <Sparkles size={14} />
           </span>
           <span>
-            SEO<span className="text-primary font-extrabold">AI</span>
+            Rank<span className="text-primary font-extrabold">Helper</span>
           </span>
         </div>
         <p className="text-xs text-text-muted">
-          &copy; {year} SEO AI Assistant. All rights reserved. Powered by AI-driven search intelligence.
+          &copy; {year} RankHelper. All rights reserved. Powered by AI-driven search intelligence.
         </p>
       </Container>
     </footer>

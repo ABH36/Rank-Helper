@@ -52,7 +52,7 @@
   --text-secondary: #3d4a3f;
   --text-muted: #526356;
   --border: #d1fae5;
-  --border-strong: #a7f3d0;
+  --border-strong: rgba(5, 150, 105, 0.4);
   --glow: rgba(52, 211, 153, 0.12);
   --glow-lime: rgba(163, 230, 53, 0.15);
   --primary: #059669;
@@ -155,6 +155,8 @@ body {
 
 html {
   scrollbar-color: var(--color-surface-2) var(--color-bg);
+  scroll-padding-top: 6rem;
+  scroll-behavior: smooth;
 }
 
 /* Keyframe animations */
@@ -174,6 +176,10 @@ html {
 
 .animate-pulse-glow {
   animation: pulseGlow 4s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 8s linear infinite;
 }
 
 

@@ -22,11 +22,11 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative overflow-hidden py-16 sm:py-24">
+    <section id="home" className="relative overflow-hidden py-16 sm:py-24">
       <Container className="flex flex-col items-center text-center">
         {/* Top Pill Badge */}
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold tracking-wide text-primary backdrop-blur-md">
-          <Sparkles size={14} className="animate-spin text-primary" style={{ animationDuration: '8s' }} />
+          <Sparkles size={14} className="animate-spin-slow text-primary" />
           <span>Next-Gen AI SEO Assistant</span>
           <span className="h-1 w-1 rounded-full bg-primary" />
           <span className="text-primary font-bold">2.0 Active</span>
