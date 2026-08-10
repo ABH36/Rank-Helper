@@ -1,115 +1,179 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+/* Class-based dark mode toggle (ThemeContext adds/removes .dark on <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@theme {
+  /* Vibrant Electric Lime/Emerald Brand Scale derived from AI Chatbot Dribbble Concept */
+  --color-brand-50: #ecfdf5;
+  --color-brand-100: #d1fae5;
+  --color-brand-200: #a7f3d0;
+  --color-brand-300: #6ee7b7;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-700: #047857;
+  --color-brand-800: #065f46;
+  --color-brand-900: #064e3b;
+  --color-brand-950: #022c22;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  /* Semantic tokens — swap value via :root / .dark below, same class names everywhere */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-card: var(--surface-card);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-text: var(--text);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-glow: var(--glow);
+  --color-glow-lime: var(--glow-lime);
+  --color-primary: var(--primary);
+  --color-primary-emerald: var(--primary-emerald);
+  --color-primary-bright: var(--primary-bright);
+  --color-accent-lime: var(--accent-lime);
+
+  --font-sans: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-heading: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+:root {
+  --bg: #f4f7f4;
+  --surface: #ffffff;
+  --surface-2: #eaf1eb;
+  --surface-card: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-subtle: #eaf1eb;
+  --text: #050806;
+  --text-secondary: #3d4a3f;
+  --text-muted: #526356;
+  --border: #d1fae5;
+  --border-strong: #a7f3d0;
+  --glow: rgba(52, 211, 153, 0.12);
+  --glow-lime: rgba(163, 230, 53, 0.15);
+  --primary: #059669;
+  --primary-emerald: #047857;
+  --primary-bright: #10b981;
+  --accent-lime: #65a30d;
+}
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+.dark {
+  --bg: #000000;
+  --surface: #050705;
+  --surface-2: #080b08;
+  --surface-card: #090c09;
+  --surface-elevated: #0d120e;
+  --surface-subtle: #0b170e;
+  --text: #f5f7f5;
+  --text-secondary: #b8c0b9;
+  --text-muted: #737a74;
+  --border: rgba(80, 255, 120, 0.18);
+  --border-strong: rgba(80, 255, 120, 0.35);
+  --glow: rgba(34, 197, 94, 0.18);
+  --glow-lime: rgba(183, 255, 60, 0.2);
+  --primary: #22c55e;
+  --primary-emerald: #00a83b;
+  --primary-bright: #39e75f;
+  --accent-lime: #b7ff3c;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-x: hidden;
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+/* Background vertical stripes like reference image */
+.bg-stripes-pattern {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 60px,
+    rgba(52, 211, 153, 0.03) 60px,
+    rgba(52, 211, 153, 0.03) 120px
+  );
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+/* Glassmorphism & Custom AI Utilities */
+.glass-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+.glow-emerald {
+  box-shadow: 0 0 25px -5px rgba(34, 197, 94, 0.4);
 }
 
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+.glow-subtle {
+  box-shadow: 0 4px 20px -2px var(--color-glow);
 }
 
-p {
-  margin: 0;
+.btn-neon-pill {
+  background: linear-gradient(90deg, #22c55e 0%, #b7ff3c 100%);
+  color: #061006;
+  font-weight: 600;
+  box-shadow: 0 0 24px rgba(100, 255, 70, 0.18);
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+.btn-neon-pill:hover {
+  box-shadow: 0 0 32px rgba(100, 255, 70, 0.28);
+  transform: translateY(-1px) scale(1.02);
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* Custom scrollbar — subtle, theme-aware */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-2);
+  border-radius: 9999px;
+  border: 2px solid var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-emerald);
+}
+
+html {
+  scrollbar-color: var(--color-surface-2) var(--color-bg);
+}
+
+/* Keyframe animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+
