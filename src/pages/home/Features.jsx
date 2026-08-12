@@ -1,6 +1,7 @@
 import { Clock, Lock, Moon, Smartphone } from 'lucide-react'
 import Section from '../../components/common/Section'
 import Card from '../../components/common/Card'
+import RevealBox from '../../components/common/RevealBox'
 
 const FEATURES = [
   {
@@ -32,21 +33,27 @@ export default function Features() {
       eyebrow="Platform Highlights"
       title="Engineered for Performance & Speed"
       subtitle="Refined UX touches designed to make daily SEO execution effortless and dependable."
+      className="relative overflow-hidden"
     >
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {FEATURES.map(({ icon: Icon, title, description }) => (
-          <Card key={title} className="text-left group flex flex-col justify-between">
-            <div>
-              <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary border border-primary/20 shadow-sm transition-transform group-hover:scale-110 group-hover:bg-primary group-hover:text-[#061006]">
-                <Icon size={20} />
-              </span>
-              <h3 className="font-heading text-base font-bold text-text">{title}</h3>
-              <p className="mt-2 text-sm text-text-muted leading-relaxed">{description}</p>
-            </div>
-          </Card>
+      <div className="relative z-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {FEATURES.map(({ icon: Icon, title, description }, i) => (
+          <RevealBox
+            key={title}
+            direction={i % 2 === 0 ? 'fade-left' : 'fade-right'}
+            delay={i * 0.1}
+          >
+            <Card className="text-left group flex flex-col justify-between card-hover-premium h-full">
+              <div>
+                <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary border border-primary/20 shadow-sm transition-transform group-hover:scale-110 group-hover:bg-primary group-hover:text-[#061006]">
+                  <Icon size={20} />
+                </span>
+                <h3 className="font-heading text-base font-bold text-text">{title}</h3>
+                <p className="mt-2 text-sm text-text-muted leading-relaxed">{description}</p>
+              </div>
+            </Card>
+          </RevealBox>
         ))}
       </div>
     </Section>
   )
 }
-
