@@ -47,7 +47,7 @@ export default function Features() {
                 <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary border border-primary/20 shadow-sm transition-transform group-hover:scale-110 group-hover:bg-primary group-hover:text-[#061006]">
                   <Icon size={20} />
                 </span>
-                <h3 className="font-heading text-base font-bold text-text">{title}</h3>
+                <h3 className="font-heading text-base font-normal text-text">{title}</h3>
                 <p className="mt-2 text-sm text-text-muted leading-relaxed">{description}</p>
               </div>
             </Card>

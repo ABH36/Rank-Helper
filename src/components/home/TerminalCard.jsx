@@ -16,7 +16,7 @@ const LINES = [
 ]
 
 const COLOR = {
-  cmd:  'text-primary font-bold',
+  cmd:  'text-primary font-normal',
   info: 'text-text-muted',
   ok:   'text-fuchsia-400',
   warn: 'text-amber-400',
@@ -109,7 +109,7 @@ export default function TerminalCard({ className = '' }) {
         <span className="h-3 w-3 rounded-full bg-red-500/70" />
         <span className="h-3 w-3 rounded-full bg-amber-400/70" />
         <span className="h-3 w-3 rounded-full bg-fuchsia-500/70" />
-        <span className="ml-3 text-xs font-mono font-semibold text-text-muted">
+        <span className="ml-3 text-xs font-mono font-normal text-text-muted">
           rankhelper — CLI v2.0
         </span>
       </div>

@@ -40,7 +40,7 @@ export default function About() {
               <span className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary border border-primary/20 shadow-sm transition-transform group-hover:scale-110 group-hover:bg-primary/20">
                 <Icon size={22} />
               </span>
-              <h3 className="font-heading text-lg font-bold text-text">{title}</h3>
+              <h3 className="font-heading text-lg font-normal text-text">{title}</h3>
               <p className="mt-2 text-sm text-text-muted leading-relaxed">{description}</p>
             </Card>
           </RevealBox>

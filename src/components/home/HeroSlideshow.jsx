@@ -202,8 +202,8 @@ export default function HeroSlideshow({ className = '' }) {
                 <Icon size={18} />
               </span>
               <div>
-                <h3 className="font-heading text-sm font-bold text-white">{slide.title}</h3>
-                <p className={`text-xs font-semibold ${accent.text}`}>{slide.stat}</p>
+                <h3 className="font-heading text-sm font-normal text-white">{slide.title}</h3>
+                <p className={`text-xs font-normal ${accent.text}`}>{slide.stat}</p>
               </div>
             </div>
           </motion.div>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -44,8 +44,8 @@
   --color-accent-orange:    var(--accent-orange);
   --color-glow-orange:      var(--glow-orange);
 
-  --font-sans:    'Noto Sans', 'Segoe UI', system-ui, sans-serif;
-  --font-heading: 'Noto Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-sans:    'Fredoka', 'Segoe UI', system-ui, sans-serif;
+  --font-heading: 'Fredoka', 'Segoe UI', system-ui, sans-serif;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

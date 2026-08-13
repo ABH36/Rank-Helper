@@ -108,7 +108,7 @@ export default function ImageShowcase({ className = '' }) {
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.4 }}
               >
-                <p className="font-heading text-sm font-bold text-white">{slide.title}</p>
+                <p className="font-heading text-sm font-normal text-white">{slide.title}</p>
                 <p className="text-[11px] text-white/70">{slide.tag}</p>
               </motion.div>
             </AnimatePresence>

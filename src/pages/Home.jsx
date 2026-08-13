@@ -26,10 +26,10 @@ export default function Home() {
       <section className="py-16 sm:py-24 bg-surface/40">
         <Container>
           <RevealBox direction="fade-up" className="mb-10 text-center">
-            <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1 text-xs font-bold tracking-wider text-primary uppercase backdrop-blur-md">
+            <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1 text-xs font-normal tracking-wider text-primary uppercase backdrop-blur-md">
               Performance & CLI
             </span>
-            <h2 className="mt-3 font-heading text-3xl font-extrabold tracking-tight text-text sm:text-4xl">
+            <h2 className="mt-3 font-heading text-3xl font-normal tracking-tight text-text sm:text-4xl">
               Built for speed, built for SEOs
             </h2>
             <p className="mt-4 text-base text-text-muted sm:text-lg leading-relaxed max-w-2xl mx-auto">

@@ -10,7 +10,7 @@ export default function BottomNav({ onActionClick }) {
       <button
         type="button"
         onClick={() => setActiveTab('home')}
-        className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold transition-all cursor-pointer ${
+        className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-normal transition-all cursor-pointer ${
           activeTab === 'home'
             ? 'bg-primary/15 text-primary border border-primary/30'
             : 'text-text-muted hover:text-text'
@@ -46,7 +46,7 @@ export default function BottomNav({ onActionClick }) {
       <button
         type="button"
         onClick={onActionClick}
-        className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-tr from-primary to-accent-lime text-[#061006] shadow-[0_0_20px_var(--glow-lime)] transition-transform hover:scale-110 active:scale-95 cursor-pointer font-bold"
+        className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-tr from-primary to-accent-lime text-[#061006] shadow-[0_0_20px_var(--glow-lime)] transition-transform hover:scale-110 active:scale-95 cursor-pointer font-normal"
         aria-label="Add Action"
       >
         <Plus size={22} strokeWidth={2.5} />

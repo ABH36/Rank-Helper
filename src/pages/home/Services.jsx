@@ -109,7 +109,7 @@ export default function Services() {
                   <Badge variant={variant}>{tag}</Badge>
                 </div>
 
-                <h3 className="font-heading text-lg font-bold text-text flex items-center justify-between">
+                <h3 className="font-heading text-lg font-normal text-text flex items-center justify-between">
                   <span>{title}</span>
                   <ArrowUpRight size={18} className="text-text-muted transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary" />
                 </h3>
@@ -117,7 +117,7 @@ export default function Services() {
                 <p className="mt-2 text-sm text-text-muted leading-relaxed">{description}</p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-border flex items-center justify-between text-xs font-semibold text-primary opacity-0 transition-opacity group-hover:opacity-100">
+              <div className="mt-6 pt-4 border-t border-border flex items-center justify-between text-xs font-normal text-primary opacity-0 transition-opacity group-hover:opacity-100">
                 <span className="flex items-center gap-1">
                   <Sparkles size={12} />
                   Launch Tool

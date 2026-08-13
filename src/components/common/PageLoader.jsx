@@ -29,7 +29,7 @@ export default function PageLoader({ visible }) {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.4 }}
-            className="mt-5 font-heading text-sm font-bold tracking-widest text-text-muted uppercase"
+            className="mt-5 font-heading text-sm font-normal tracking-widest text-text-muted uppercase"
           >
             Rank<span className="text-primary">Helper</span>
           </motion.p>

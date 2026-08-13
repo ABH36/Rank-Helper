@@ -46,8 +46,8 @@ export default function ComparisonChart({ className = '' }) {
     <div className={`rounded-2xl border border-border bg-surface-card/80 p-6 backdrop-blur-md shadow-sm ${className}`}>
       {/* Header */}
       <RevealBox direction="fade-up">
-        <p className="mb-1 text-xs font-bold uppercase tracking-widest text-primary">Performance</p>
-        <h3 className="font-heading text-xl font-extrabold text-text">
+        <p className="mb-1 text-xs font-normal uppercase tracking-widest text-primary">Performance</p>
+        <h3 className="font-heading text-xl font-normal text-text">
           How RankHelper compares
         </h3>
       </RevealBox>
@@ -59,7 +59,7 @@ export default function ComparisonChart({ className = '' }) {
             key={t.id}
             type="button"
             onClick={() => setActiveTab(t.id)}
-            className={`relative rounded-full px-4 py-1.5 text-xs font-bold transition-all duration-200 cursor-pointer ${
+            className={`relative rounded-full px-4 py-1.5 text-xs font-normal transition-all duration-200 cursor-pointer ${
               activeTab === t.id
                 ? 'bg-primary text-[#061006] shadow-[0_0_14px_var(--glow)]'
                 : 'border border-border bg-surface-2/60 text-text-muted hover:border-primary/40 hover:text-primary'
@@ -91,8 +91,8 @@ export default function ComparisonChart({ className = '' }) {
           {tab.data.map((item, i) => (
             <div key={item.name}>
               <div className="mb-1.5 flex items-center justify-between">
-                <span className="text-xs font-semibold text-text">{item.name}</span>
-                <span className="text-xs font-bold" style={{ color: item.color }}>
+                <span className="text-xs font-normal text-text">{item.name}</span>
+                <span className="text-xs font-normal" style={{ color: item.color }}>
                   {item.value} {tab.unit}
                 </span>
               </div>

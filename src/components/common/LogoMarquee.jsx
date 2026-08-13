@@ -34,7 +34,7 @@ export default function LogoMarquee({ className = '' }) {
       <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-20 bg-gradient-to-l from-bg to-transparent" />
 
       {/* Label */}
-      <p className="mb-4 text-center text-xs font-bold uppercase tracking-widest text-text-muted">
+      <p className="mb-4 text-center text-xs font-normal uppercase tracking-widest text-text-muted">
         Works alongside your favourite tools
       </p>
 
@@ -51,7 +51,7 @@ export default function LogoMarquee({ className = '' }) {
         {TRACK.map(({ name, logo }, i) => (
           <div
             key={`${name}-${i}`}
-            className="flex shrink-0 items-center gap-2.5 rounded-full border border-border bg-surface-card/70 px-5 py-2.5 text-sm font-semibold text-text-secondary shadow-sm backdrop-blur-sm transition-all hover:border-primary/40 hover:text-primary hover:shadow-[0_0_14px_var(--glow)]"
+            className="flex shrink-0 items-center gap-2.5 rounded-full border border-border bg-surface-card/70 px-5 py-2.5 text-sm font-normal text-text-secondary shadow-sm backdrop-blur-sm transition-all hover:border-primary/40 hover:text-primary hover:shadow-[0_0_14px_var(--glow)]"
           >
             <img src={logo} alt={name} className="h-5 w-5 shrink-0 rounded-md object-contain" draggable={false} />
             <span>{name}</span>

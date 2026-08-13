@@ -30,7 +30,7 @@ export default function MobileTemplateShowcase() {
         <button
           type="button"
           onClick={() => setActiveScreen(1)}
-          className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold transition-all cursor-pointer ${
+          className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-normal transition-all cursor-pointer ${
             activeScreen === 1
               ? 'bg-gradient-to-r from-primary to-accent-lime text-[#061006] shadow-md shadow-[var(--glow-lime)]'
               : 'border border-border bg-surface/60 text-text-muted hover:text-text'
@@ -42,7 +42,7 @@ export default function MobileTemplateShowcase() {
         <button
           type="button"
           onClick={() => setActiveScreen(2)}
-          className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold transition-all cursor-pointer ${
+          className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-normal transition-all cursor-pointer ${
             activeScreen === 2
               ? 'bg-gradient-to-r from-primary to-accent-lime text-[#061006] shadow-md shadow-[var(--glow-lime)]'
               : 'border border-border bg-surface/60 text-text-muted hover:text-text'
@@ -54,7 +54,7 @@ export default function MobileTemplateShowcase() {
         <button
           type="button"
           onClick={() => setActiveScreen(3)}
-          className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold transition-all cursor-pointer ${
+          className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-normal transition-all cursor-pointer ${
             activeScreen === 3
               ? 'bg-gradient-to-r from-primary to-accent-lime text-[#061006] shadow-md shadow-[var(--glow-lime)]'
               : 'border border-border bg-surface/60 text-text-muted hover:text-text'
@@ -74,7 +74,7 @@ export default function MobileTemplateShowcase() {
           onClick={() => setActiveScreen(1)}
         >
           {/* Status Bar */}
-          <div className="flex items-center justify-between text-[11px] font-semibold text-text-muted mb-6 px-1">
+          <div className="flex items-center justify-between text-[11px] font-normal text-text-muted mb-6 px-1">
             <span>9:41</span>
             <div className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-primary" />
@@ -85,7 +85,7 @@ export default function MobileTemplateShowcase() {
           {/* User Avatar */}
           <div className="flex items-center mb-5">
             <div className="h-11 w-11 rounded-full bg-gradient-to-tr from-primary to-accent-lime p-0.5 shadow-md">
-              <div className="h-full w-full rounded-full bg-black flex items-center justify-center text-primary font-bold text-sm">
+              <div className="h-full w-full rounded-full bg-black flex items-center justify-center text-primary font-normal text-sm">
                 MR
               </div>
             </div>
@@ -93,7 +93,7 @@ export default function MobileTemplateShowcase() {
 
           {/* Title */}
           <div className="text-left mb-6">
-            <h3 className="font-heading text-xl font-extrabold text-text">Your basic details</h3>
+            <h3 className="font-heading text-xl font-normal text-text">Your basic details</h3>
             <div className="h-0.5 w-16 bg-accent-lime rounded-full my-2" />
             <p className="text-xs text-text-muted">These details are required for the certificate</p>
           </div>
@@ -151,7 +151,7 @@ export default function MobileTemplateShowcase() {
           onClick={() => setActiveScreen(2)}
         >
           {/* Status Bar */}
-          <div className="flex items-center justify-between text-[11px] font-semibold text-text-muted mb-6 px-1">
+          <div className="flex items-center justify-between text-[11px] font-normal text-text-muted mb-6 px-1">
             <span>9:41</span>
             <div className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-primary" />
@@ -163,13 +163,13 @@ export default function MobileTemplateShowcase() {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3 text-left">
               <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-primary to-accent-lime p-0.5 shadow-md">
-                <div className="h-full w-full rounded-full bg-black flex items-center justify-center text-accent-lime font-bold text-xs">
+                <div className="h-full w-full rounded-full bg-black flex items-center justify-center text-accent-lime font-normal text-xs">
                   MR
                 </div>
               </div>
               <div>
                 <p className="text-[11px] font-medium text-text-muted">Hello, Michael</p>
-                <h4 className="font-heading text-sm font-extrabold text-text">What's on your mind?</h4>
+                <h4 className="font-heading text-sm font-normal text-text">What's on your mind?</h4>
               </div>
             </div>
 
@@ -192,7 +192,7 @@ export default function MobileTemplateShowcase() {
           {/* Voice Chat with AI Card */}
           <div className="rounded-3xl border border-border bg-surface-2/60 p-4 text-left mb-5">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-extrabold text-text flex items-center gap-1.5">
+              <span className="text-xs font-normal text-text flex items-center gap-1.5">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/20 text-primary">
                   <Sparkles size={13} />
                 </span>
@@ -225,7 +225,7 @@ export default function MobileTemplateShowcase() {
                 <Zap size={14} />
               </span>
               <div>
-                <h5 className="text-xs font-bold text-text">Quick Access</h5>
+                <h5 className="text-xs font-normal text-text">Quick Access</h5>
                 <p className="text-[10px] text-text-muted mt-1">Get Instant AI assistance anytime.</p>
               </div>
             </div>
@@ -235,7 +235,7 @@ export default function MobileTemplateShowcase() {
                 <MessageSquare size={14} />
               </span>
               <div>
-                <h5 className="text-xs font-bold text-text">Recent Prompt</h5>
+                <h5 className="text-xs font-normal text-text">Recent Prompt</h5>
                 <p className="text-[10px] text-text-muted mt-1">Get Instant AI assistance anytime.</p>
               </div>
             </div>
@@ -244,8 +244,8 @@ export default function MobileTemplateShowcase() {
           {/* Recent Activities */}
           <div className="text-left mb-5">
             <div className="flex items-center justify-between mb-3">
-              <h5 className="text-xs font-extrabold text-text">Recent Activities</h5>
-              <span className="text-[10px] font-semibold text-primary cursor-pointer">See all</span>
+              <h5 className="text-xs font-normal text-text">Recent Activities</h5>
+              <span className="text-[10px] font-normal text-primary cursor-pointer">See all</span>
             </div>
 
             <div className="space-y-2">
@@ -283,7 +283,7 @@ export default function MobileTemplateShowcase() {
           onClick={() => setActiveScreen(3)}
         >
           {/* Status Bar */}
-          <div className="flex items-center justify-between text-[11px] font-semibold text-text-muted mb-4 px-1">
+          <div className="flex items-center justify-between text-[11px] font-normal text-text-muted mb-4 px-1">
             <span>9:41</span>
             <div className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-primary" />
@@ -299,7 +299,7 @@ export default function MobileTemplateShowcase() {
             >
               <ChevronLeft size={18} />
             </button>
-            <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-[10px] font-extrabold text-amber-400">
+            <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-[10px] font-normal text-amber-400">
               <Crown size={12} />
               Premium
             </span>
@@ -308,11 +308,11 @@ export default function MobileTemplateShowcase() {
           {/* Profile Card */}
           <div className="flex flex-col items-center text-center mb-5">
             <div className="h-20 w-20 rounded-full bg-gradient-to-tr from-primary to-accent-lime p-1 shadow-lg mb-3">
-              <div className="h-full w-full rounded-full bg-black flex items-center justify-center text-accent-lime font-extrabold text-xl">
+              <div className="h-full w-full rounded-full bg-black flex items-center justify-center text-accent-lime font-normal text-xl">
                 RT
               </div>
             </div>
-            <h4 className="font-heading text-base font-extrabold text-text">Ricky Transitioner</h4>
+            <h4 className="font-heading text-base font-normal text-text">Ricky Transitioner</h4>
             <p className="text-xs text-text-muted mb-3">Career Change Expert</p>
 
             <Button variant="secondary" size="sm" className="!py-2 !px-4 text-[11px]">
@@ -323,35 +323,35 @@ export default function MobileTemplateShowcase() {
 
           {/* About Me Card */}
           <div className="rounded-3xl border border-border bg-surface-2/60 p-4 text-left mb-5">
-            <h5 className="text-xs font-extrabold text-text mb-2">About Me</h5>
+            <h5 className="text-xs font-normal text-text mb-2">About Me</h5>
             <p className="text-[11px] text-text-muted leading-relaxed">
-              Are you tired of feeling stuck in a job that doesn't fulfill you? Look no further! I am a career change expert, dedicated to helping individuals like you discover their true passion... <span className="text-primary font-semibold cursor-pointer">see more</span>
+              Are you tired of feeling stuck in a job that doesn't fulfill you? Look no further! I am a career change expert, dedicated to helping individuals like you discover their true passion... <span className="text-primary font-normal cursor-pointer">see more</span>
             </p>
           </div>
 
           {/* Capabilities */}
           <div className="text-left mb-6">
-            <h5 className="text-xs font-extrabold text-text mb-3">Capabilities</h5>
+            <h5 className="text-xs font-normal text-text mb-3">Capabilities</h5>
             <div className="grid grid-cols-3 gap-2">
               <div className="rounded-2xl border border-border bg-surface-2/60 p-3 flex flex-col items-center text-center">
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/20 text-primary mb-1.5">
                   <Compass size={14} />
                 </span>
-                <span className="text-[10px] font-bold text-text leading-tight">Strategy & Guidance</span>
+                <span className="text-[10px] font-normal text-text leading-tight">Strategy & Guidance</span>
               </div>
 
               <div className="rounded-2xl border border-border bg-surface-2/60 p-3 flex flex-col items-center text-center">
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent-lime/20 text-accent-lime mb-1.5">
                   <TrendingUp size={14} />
                 </span>
-                <span className="text-[10px] font-bold text-text leading-tight">Career Growth</span>
+                <span className="text-[10px] font-normal text-text leading-tight">Career Growth</span>
               </div>
 
               <div className="rounded-2xl border border-border bg-surface-2/60 p-3 flex flex-col items-center text-center">
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-surface-2 text-text-secondary mb-1.5">
                   <UserCheck size={14} />
                 </span>
-                <span className="text-[10px] font-bold text-text leading-tight">Transition Support</span>
+                <span className="text-[10px] font-normal text-text leading-tight">Transition Support</span>
               </div>
             </div>
           </div>

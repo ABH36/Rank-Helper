@@ -16,9 +16,9 @@ const NAV_LINKS = [
 
 function navLinkClass({ mobile = false } = {}) {
   if (mobile) {
-    return 'rounded-full border border-border bg-surface-2/50 px-4 py-2.5 text-sm text-center font-semibold text-text transition-all hover:border-accent-lime/40 hover:bg-accent-lime/10 hover:text-accent-lime hover:shadow-[0_0_16px_var(--glow-lime)]'
+    return 'rounded-full border border-border bg-surface-2/50 px-4 py-2.5 text-sm text-center font-normal text-text transition-all hover:border-accent-lime/40 hover:bg-accent-lime/10 hover:text-accent-lime hover:shadow-[0_0_16px_var(--glow-lime)]'
   }
-  return 'rounded-full px-4 py-1.5 text-xs font-semibold whitespace-nowrap text-text transition-all hover:bg-accent-lime/10 hover:text-accent-lime hover:shadow-[0_0_16px_var(--glow-lime)]'
+  return 'rounded-full px-4 py-1.5 text-xs font-normal whitespace-nowrap text-text transition-all hover:bg-accent-lime/10 hover:text-accent-lime hover:shadow-[0_0_16px_var(--glow-lime)]'
 }
 
 const mobileMenuVariants = {
@@ -36,12 +36,12 @@ export default function Navbar() {
         <Container className="flex h-16 items-center justify-between gap-3">
 
           {/* Logo */}
-          <Link to="/" className="group flex shrink-0 items-center gap-2.5 font-heading text-lg font-bold text-text">
+          <Link to="/" className="group flex shrink-0 items-center gap-2.5 font-heading text-lg font-normal text-text">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-primary-emerald to-primary text-[#061006] shadow-md shadow-[var(--glow)] transition-transform group-hover:scale-105">
               <Sparkles size={18} className="animate-pulse" />
             </span>
             <span className="tracking-tight">
-              Rank<span className="text-primary font-extrabold">Helper</span>
+              Rank<span className="text-primary font-normal">Helper</span>
             </span>
           </Link>
 

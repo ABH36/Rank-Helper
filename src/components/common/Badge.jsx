@@ -9,7 +9,7 @@ const VARIANTS = {
 export default function Badge({ variant = 'emerald', className = '', children, ...props }) {
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold tracking-wide backdrop-blur-sm transition-colors ${VARIANTS[variant] || VARIANTS.emerald} ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-normal tracking-wide backdrop-blur-sm transition-colors ${VARIANTS[variant] || VARIANTS.emerald} ${className}`}
       {...props}
     >
       {children}
