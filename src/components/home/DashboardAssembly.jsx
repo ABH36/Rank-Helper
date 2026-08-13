@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Bell, Gauge, LineChart, Search, Sparkles, Table2, TrendingUp } from 'lucide-react'
+import { useTheme } from '../../context/ThemeContext'
 
 const LOGO_MS = 1300
 const PROMPT_MS = 3400 // how long the headline+button prompt shows before auto-advancing
@@ -9,25 +10,81 @@ const SETTLE_MS = 1100 // how long the fully-assembled dashboard holds crisp bef
 
 const EASE = [0.22, 1, 0.36, 1]
 
-// Colors matched directly to the reference video (not this site's own purple/black
-// brand tokens) — a soft blue-lavender intro (never fading to flat white) that deepens
-// into a vivid blue → purple → pink gradient once the dashboard assembles, with light
-// glassy cards + dark navy text.
-const BG_LIGHT = 'linear-gradient(180deg, #d3e0fb 0%, #dde2f7 50%, #e7e2f4 100%)'
-const BG_VIVID = 'linear-gradient(135deg, #5865d6 0%, #8b5cd6 45%, #d669c4 100%)'
-const ACCENT_GRADIENT = 'linear-gradient(90deg, #5865d6, #a35cd6, #d669c4)'
-// Same soft lavender as BG_LIGHT, but translucent — matches the reference video's
-// glassy, see-through cards instead of solid opaque white panels.
-const CARD_BG = 'rgba(221, 226, 247, 0.38)'
-const HEADER_BG = 'rgba(221, 226, 247, 0.3)'
-const TEXT_DARK = '#0a0a0a'
-const TEXT_MUTED = '#6b7398'
+// Both themes share the same glowing-ribbon background design — only the base
+// field color and whether the star dots show differ. Light mode: a flat pale
+// lavender field. Dark mode: near-black.
+const LIGHT_RIBBON_BG = 'linear-gradient(to right, #eae5fb 0%, #eae5fb 100%)'
+const DARK_RIBBON_BG = 'radial-gradient(ellipse 90% 70% at 25% 15%, #1c0f24 0%, #0a0710 55%, #050308 100%)'
+const ACCENT_GRADIENT = 'linear-gradient(90deg, #7c3aed, #d946ef, #f472b6)'
+// These read as CSS custom properties (set inline on the root, per theme) rather
+// than fixed hex values, so every card/text usage below flips automatically
+// between the light lavender look and the dark ribbon look — no prop drilling.
+const CARD_BG = 'var(--dash-card-bg)'
+const HEADER_BG = 'var(--dash-header-bg)'
+const TEXT_DARK = 'var(--dash-text)'
+const TEXT_MUTED = 'var(--dash-text-muted)'
 // Same gradient PageLoader.jsx uses for the site's real reload-screen brand mark —
 // reused here so the hero's logo moment is identical to the rest of the site, not
 // a separate invented style.
 const LOGO_GRADIENT = 'linear-gradient(to top right, var(--color-primary-emerald), var(--color-primary))'
 
 const POP_TRANSITION = { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }
+
+// A faint scatter of star-like dots — only shown over the dark field, since
+// they'd be invisible against the light lavender field.
+const STAR_DOTS = [
+  ['8%', '12%', 3, 0.6], ['15%', '30%', 2, 0.4], ['22%', '8%', 2, 0.5],
+  ['30%', '46%', 3, 0.35], ['12%', '62%', 2, 0.45], ['38%', '22%', 2, 0.3],
+  ['5%', '78%', 3, 0.5], ['45%', '65%', 2, 0.35], ['18%', '88%', 2, 0.4],
+]
+
+// Shared background for both themes — glowing magenta ribbons arcing up from
+// the bottom-right corner over a subtle film-grain texture, matching the
+// reference the user provided. Only the base field (dark vs. light lavender)
+// and the star dots differ between themes.
+function RibbonBackground({ baseBackground, showStars }) {
+  const ribbon = (width, height, rotate, translate, colors, glow) => ({
+    className: 'absolute rounded-full',
+    style: {
+      width,
+      height,
+      background: `linear-gradient(90deg, ${colors})`,
+      transform: `rotate(${rotate}deg) translate(${translate})`,
+      filter: `drop-shadow(0 0 30px ${glow})`,
+    },
+  })
+
+  return (
+    <div
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+      style={{ background: baseBackground }}
+    >
+      <div
+        className="absolute inset-0 opacity-[0.06] mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+        }}
+      />
+      {showStars && STAR_DOTS.map(([top, left, size, opacity], i) => (
+        <span
+          key={i}
+          className="absolute rounded-full bg-white"
+          style={{ top, left, width: size, height: size, opacity }}
+        />
+      ))}
+      <div
+        className="absolute -bottom-32 -right-20 h-96 w-96 rounded-full blur-[100px]"
+        style={{ background: 'radial-gradient(circle, rgba(217,70,239,0.45) 0%, transparent 70%)' }}
+      />
+      <div className="absolute -bottom-24 -right-24 h-[420px] w-[620px]">
+        <div {...ribbon('560px', '96px', -30, '20px, 60px', '#6b21a8, #c026d3, #f0abfc', 'rgba(217,70,239,0.4)')} />
+        <div {...ribbon('520px', '80px', -18, '60px, 130px', '#86198f, #d946ef, #f5d0fe', 'rgba(217,70,239,0.35)')} />
+        <div {...ribbon('480px', '64px', -6, '110px, 210px', '#581c87, #a21caf, #e879f9', 'rgba(217,70,239,0.3)')} />
+      </div>
+    </div>
+  )
+}
 
 // One-shot: peaks to solid white right as the logo zooms in and disappears, then
 // fades back out — a "zoom through to white" transition into the next scene.
@@ -143,7 +200,7 @@ function DashCard({ id, loose, className = '', children }) {
 function CardLabel({ icon: Icon, label }) {
   return (
     <p className="mb-1.5 flex items-center gap-1.5 text-[9px] font-normal uppercase tracking-widest" style={{ color: TEXT_MUTED }}>
-      <Icon size={10} style={{ color: '#8b5cd6' }} />
+      <Icon size={10} style={{ color: '#c93fa8' }} />
       {label}
     </p>
   )
@@ -246,9 +303,27 @@ function AssembledLayout() {
   )
 }
 
+// Light mode: dark navy-on-lavender text + translucent lavender glass cards
+// (matches the reference video). Dark mode: light text + translucent white
+// glass cards, readable over the near-black ribbon background instead.
+const DASH_VARS_LIGHT = {
+  '--dash-text': '#0a0a0a',
+  '--dash-text-muted': '#6b5b7a',
+  '--dash-card-bg': 'rgba(255, 255, 255, 0.5)',
+  '--dash-header-bg': 'rgba(255, 255, 255, 0.35)',
+}
+const DASH_VARS_DARK = {
+  '--dash-text': '#f5f3ff',
+  '--dash-text-muted': '#c9b8dc',
+  '--dash-card-bg': 'rgba(255, 255, 255, 0.07)',
+  '--dash-header-bg': 'rgba(255, 255, 255, 0.05)',
+}
+
 export default function DashboardAssembly({ className = '', onFirstComplete }) {
   const [phase, setPhase] = useState('logo') // 'logo' | 'prompt' | 'assembling' | 'assembled' | 'settled'
   const reduceMotion = useReducedMotion()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const timers = useRef([])
   const firedComplete = useRef(false)
 
@@ -308,24 +383,14 @@ export default function DashboardAssembly({ className = '', onFirstComplete }) {
   }, [phase, onFirstComplete])
 
   const handleStart = () => setPhase('assembling')
-  const isVivid = phase === 'assembling' || phase === 'assembled' || phase === 'settled'
   const isDashboardVisible = phase === 'assembled' || phase === 'settled'
 
   return (
-    <div className={`h-full w-full overflow-hidden select-none ${className}`}>
-      {/* Background — crossfades from the light intro gradient to the vivid assembled gradient */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ background: BG_LIGHT }}
-        animate={{ opacity: isVivid ? 0 : 1 }}
-        transition={{ duration: 0.9, ease: EASE }}
-      />
-      <motion.div
-        className="absolute inset-0"
-        style={{ background: BG_VIVID }}
-        animate={{ opacity: isVivid ? 1 : 0 }}
-        transition={{ duration: 0.9, ease: EASE }}
-      />
+    <div
+      className={`h-full w-full overflow-hidden select-none ${className}`}
+      style={isDark ? DASH_VARS_DARK : DASH_VARS_LIGHT}
+    >
+      <RibbonBackground baseBackground={isDark ? DARK_RIBBON_BG : LIGHT_RIBBON_BG} showStars={isDark} />
 
       {/* Flashes the *entire* background white during the logo's zoom-through exit —
           must live at this level (not inside the fixed-size stage below), otherwise

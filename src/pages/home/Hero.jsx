@@ -6,6 +6,7 @@ import Container from '../../components/common/Container'
 import Button from '../../components/common/Button'
 import ScrambleText from '../../components/common/ScrambleText'
 import DashboardAssembly from '../../components/home/DashboardAssembly'
+import { useTheme } from '../../context/ThemeContext'
 
 const POP_TRANSITION = { duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }
 
@@ -19,17 +20,25 @@ const popUp = {
   visible: { opacity: 1, y: 0, scale: 1, transition: POP_TRANSITION },
 }
 
-// DashboardAssembly's own background is always a light blue/white → vivid purple-pink
-// gradient (matched to the reference video), regardless of site theme — so once the
-// headline/CTAs reveal on top of it, they need fixed dark-on-light colors rather than
-// this site's normal theme-token text color, which would go light-on-light in dark mode.
-const OVERLAY_TOKENS = {
-  '--text': '#1e2a5e',
-  '--text-secondary': '#3d4a7a',
-  '--text-muted': '#6b7398',
-  '--border': 'rgba(30,42,94,0.15)',
+// DashboardAssembly's own background is a light blue/white → vivid purple-pink
+// gradient in light mode, but a near-black ribbon background in dark mode — so
+// the headline/CTAs on top need their own fixed colors (not this site's normal
+// theme-token text color) matched to whichever of those two is showing.
+const OVERLAY_TOKENS_LIGHT = {
+  '--text': '#3a1f42',
+  '--text-secondary': '#5c3a63',
+  '--text-muted': '#7a5f82',
+  '--border': 'rgba(58,31,66,0.15)',
   '--surface': 'rgba(255,255,255,0.55)',
   '--surface-2': 'rgba(255,255,255,0.35)',
+}
+const OVERLAY_TOKENS_DARK = {
+  '--text': '#f5f3ff',
+  '--text-secondary': '#d8cbe8',
+  '--text-muted': '#c9b8dc',
+  '--border': 'rgba(245,243,255,0.15)',
+  '--surface': 'rgba(255,255,255,0.08)',
+  '--surface-2': 'rgba(255,255,255,0.05)',
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -37,6 +46,10 @@ const OVERLAY_TOKENS = {
 ═══════════════════════════════════════════════════════════════════════════ */
 export default function Hero() {
   const [revealed, setRevealed] = useState(false)
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+  const overlayTokens = isDark ? OVERLAY_TOKENS_DARK : OVERLAY_TOKENS_LIGHT
+  const headlineColor = isDark ? '#f5f3ff' : '#0a0a0a'
 
   return (
     <section
@@ -54,7 +67,7 @@ export default function Hero() {
 
       <Container
         className="relative z-10 flex min-h-[100dvh] flex-col items-center justify-center text-center"
-        style={OVERLAY_TOKENS}
+        style={overlayTokens}
       >
         <motion.div
           variants={stagger}
@@ -66,7 +79,7 @@ export default function Hero() {
           <motion.h1
             variants={popUp}
             className="font-heading text-4xl font-normal leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl"
-            style={{ color: '#0a0a0a' }}
+            style={{ color: headlineColor }}
           >
             AI Intelligence
             <br />
