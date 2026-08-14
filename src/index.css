@@ -52,8 +52,10 @@
    LIGHT THEME  (default)
 ═══════════════════════════════════════════════════════════════════════════ */
 :root {
-  /* Page background — very light minty white */
-  --bg:               #f0f7f3;
+  /* Page background — pale lavender, matches the site-wide ribbon backdrop
+     (PageBackground.jsx) so surfaces like the navbar's glass pill blend into
+     it naturally instead of a stale off-theme tint showing through. */
+  --bg:               #eae5fb;
   --surface:          #ffffff;
   --surface-2:        #e4f0e9;
   --surface-card:     #ffffff;
@@ -91,7 +93,8 @@
    DARK THEME
 ═══════════════════════════════════════════════════════════════════════════ */
 .dark {
-  --bg:               #020805;
+  /* Matches PageBackground.jsx's dark ribbon field. */
+  --bg:               #050308;
   --surface:          #060d07;
   --surface-2:        #0a1309;
   --surface-card:     #0a100a;

@@ -31,7 +31,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full px-3 pt-3 pb-1 sm:px-6 sm:pt-4">
+    <header className="relative z-50 w-full px-3 py-3 sm:px-6 sm:py-4">
+
       <div className="mx-auto max-w-7xl rounded-2xl border border-border-strong bg-bg/80 shadow-[0_4px_24px_var(--glow)] backdrop-blur-2xl transition-all duration-300 glass-panel">
         <Container className="flex h-16 items-center justify-between gap-3">
 

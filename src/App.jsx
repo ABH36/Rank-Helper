@@ -9,7 +9,10 @@ function App() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Hide loader once DOM is fully painted (~first frame after mount)
+
+
+
+
     const id = requestAnimationFrame(() => {
       setTimeout(() => setLoading(false), 900)
     })
