@@ -1,96 +1,152 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, Sparkles, X } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Container from '../common/Container'
 import Button from '../common/Button'
 import ThemeToggle from '../common/ThemeToggle'
+import ScrambleText from '../common/ScrambleText'
 
 const NAV_LINKS = [
-  { label: 'Home', href: '#home' },
+  { label: 'Home',     href: '#home' },
   { label: 'Services', href: '#services' },
   { label: 'Features', href: '#features' },
-  { label: 'About', href: '#about' },
+  { label: 'About',    href: '#about' },
 ]
 
 function navLinkClass({ mobile = false } = {}) {
   if (mobile) {
-    return 'rounded-full border border-border bg-surface-2/50 px-4 py-2.5 text-sm text-center font-heading font-semibold tracking-wide text-text-muted transition-all hover:border-white/20 hover:bg-white/10 hover:text-text'
+    return 'rounded-full border border-border bg-surface-2/50 px-4 py-2.5 text-sm text-center font-normal text-text transition-all hover:border-accent-lime/40 hover:bg-accent-lime/10 hover:text-accent-lime hover:shadow-[0_0_16px_var(--glow-lime)]'
   }
-  return 'rounded-full px-4 py-1.5 text-xs font-heading font-semibold tracking-wide whitespace-nowrap text-text-muted transition-all hover:bg-white/10 hover:text-text'
+  return 'rounded-full px-4 py-1.5 text-xs font-normal whitespace-nowrap text-text transition-all hover:bg-accent-lime/10 hover:text-accent-lime hover:shadow-[0_0_16px_var(--glow-lime)]'
+}
+
+const mobileMenuVariants = {
+  hidden:  { opacity: 0, y: -16, scaleY: 0.92 },
+  visible: { opacity: 1, y: 0,   scaleY: 1 },
+  exit:    { opacity: 0, y: -12, scaleY: 0.95 },
 }
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-3 z-50 px-3 sm:top-4 sm:px-4 lg:px-6">
-      <div className="mx-auto max-w-7xl rounded-2xl border-2 border-border-strong bg-bg/85 shadow-lg shadow-[var(--glow)] backdrop-blur-xl transition-colors">
+    <header className="relative z-50 w-full px-3 py-3 sm:px-6 sm:py-4">
+
+      <div className="mx-auto max-w-7xl rounded-2xl border border-border-strong bg-bg/80 shadow-[0_4px_24px_var(--glow)] backdrop-blur-2xl transition-all duration-300 glass-panel">
         <Container className="flex h-16 items-center justify-between gap-3">
-          <Link to="/" className="group flex shrink-0 items-center gap-2.5 font-heading text-lg font-bold text-text">
+
+          {/* Logo */}
+          <Link to="/" className="group flex shrink-0 items-center gap-2.5 font-heading text-lg font-normal text-text">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-primary-emerald to-primary text-[#061006] shadow-md shadow-[var(--glow)] transition-transform group-hover:scale-105">
               <Sparkles size={18} className="animate-pulse" />
             </span>
             <span className="tracking-tight">
-              Rank<span className="text-primary font-extrabold">Helper</span>
+              Rank<span className="text-primary font-normal">Helper</span>
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-1 rounded-full border border-border bg-surface-2/40 p-1.5 md:flex">
+          {/* Desktop nav */}
+          <nav className="hidden items-center gap-3 rounded-full border border-primary/30 bg-surface-2/40 px-2 py-1.5 md:flex lg:gap-17 lg:px-3">
             {NAV_LINKS.map((link) => (
               <a key={link.href} href={link.href} className={navLinkClass()}>
-                {link.label}
+                <ScrambleText text={link.label} />
               </a>
             ))}
           </nav>
 
-          <div className="hidden shrink-0 items-center gap-3 md:flex">
+          {/* Desktop CTA */}
+          <div className="hidden shrink-0 items-center gap-7 md:flex">
             <ThemeToggle />
             <Button as={Link} to="/login" variant="ghost" size="sm">
-              Log in
+              <ScrambleText text="Log in" />
             </Button>
             <Button as={Link} to="/signup" variant="primary" size="sm">
-              Get Started
+              <ScrambleText text="Get Started" />
             </Button>
           </div>
 
+          {/* Mobile controls */}
           <div className="flex items-center gap-2 md:hidden">
             <ThemeToggle />
             <button
               type="button"
               onClick={() => setOpen((o) => !o)}
               aria-label="Toggle menu"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-surface/60 text-text"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-surface/60 text-text transition-all hover:border-primary/40"
             >
-              {open ? <X size={18} /> : <Menu size={18} />}
+              <AnimatePresence mode="wait" initial={false}>
+                {open ? (
+                  <motion.span
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0,   opacity: 1 }}
+                    exit={{   rotate:  90,  opacity: 0 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    <X size={18} />
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="menu"
+                    initial={{ rotate: 90,  opacity: 0 }}
+                    animate={{ rotate: 0,   opacity: 1 }}
+                    exit={{   rotate: -90,  opacity: 0 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    <Menu size={18} />
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </button>
           </div>
         </Container>
       </div>
 
-      {open && (
-        <div className="mx-auto mt-2 max-w-7xl rounded-2xl border-2 border-border-strong bg-surface/95 shadow-lg backdrop-blur-2xl md:hidden">
-          <Container className="flex flex-col gap-2 py-5">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className={navLinkClass({ mobile: true })}
+      {/* Mobile slide-down menu */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key="mobile-menu"
+            variants={mobileMenuVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            style={{ transformOrigin: 'top center' }}
+            className="mx-auto mt-1.5 max-w-7xl origin-top rounded-2xl border border-border-strong bg-surface/95 shadow-xl backdrop-blur-2xl md:hidden glass-panel"
+          >
+            <Container className="flex flex-col gap-2 py-5">
+              {NAV_LINKS.map((link, i) => (
+                <motion.a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className={navLinkClass({ mobile: true })}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.06 + 0.05, duration: 0.25 }}
+                >
+                  {link.label}
+                </motion.a>
+              ))}
+              <motion.div
+                className="flex flex-col gap-2 pt-3 border-t border-border"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.28 }}
               >
-                {link.label}
-              </a>
-            ))}
-            <div className="flex flex-col gap-2 pt-3 border-t border-border">
-              <Button as={Link} to="/login" variant="outline" size="sm">
-                Log in
-              </Button>
-              <Button as={Link} to="/signup" variant="primary" size="sm">
-                Get Started
-              </Button>
-            </div>
-          </Container>
-        </div>
-      )}
+                <Button as={Link} to="/login" variant="outline" size="sm" onClick={() => setOpen(false)}>
+                  Log in
+                </Button>
+                <Button as={Link} to="/signup" variant="primary" size="sm" onClick={() => setOpen(false)}>
+                  Get Started
+                </Button>
+              </motion.div>
+            </Container>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

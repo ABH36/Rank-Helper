@@ -1,21 +1,21 @@
 const VARIANTS = {
   primary:
-    'bg-gradient-to-r from-primary to-accent-lime text-[#061006] font-semibold shadow-[0_0_24px_var(--glow-lime)] hover:shadow-[0_0_32px_var(--glow-lime)] hover:-translate-y-0.5 active:translate-y-0',
+    'bg-gradient-to-r from-primary to-accent-lime text-[#061006] font-normal shadow-[0_0_24px_var(--glow-lime)] hover:shadow-[0_0_32px_var(--glow-lime)] hover:-translate-y-0.5 active:translate-y-0',
   glow:
-    'bg-gradient-to-r from-primary-emerald to-primary text-[#061006] font-semibold shadow-[0_0_24px_var(--glow)] hover:shadow-[0_0_32px_var(--glow)] hover:-translate-y-0.5 active:translate-y-0',
+    'bg-gradient-to-r from-primary-emerald to-primary text-[#061006] font-normal shadow-[0_0_24px_var(--glow)] hover:shadow-[0_0_32px_var(--glow)] hover:-translate-y-0.5 active:translate-y-0',
   secondary:
-    'bg-black/35 dark:bg-black/35 text-text hover:bg-primary-emerald/18 border border-border hover:border-border-strong',
+    'bg-primary/10 text-text hover:bg-primary-emerald/20 border border-primary/20 hover:border-primary/40',
   outline:
-    'border border-border bg-surface/50 backdrop-blur-md text-text hover:bg-surface-2 hover:border-primary/50 hover:text-primary',
+    'border border-primary/25 bg-primary/5 backdrop-blur-md text-text hover:bg-primary/10 hover:border-primary/50 hover:text-primary',
   ghost:
-    'text-text-muted hover:text-text hover:bg-surface-2',
+    'bg-primary/5 text-text-muted hover:text-primary hover:bg-primary/10',
 }
 
 const SIZES = {
-  sm: 'px-4 py-2 text-xs rounded-full font-semibold',
-  md: 'px-6 py-3 text-sm rounded-full font-bold',
-  lg: 'px-8 py-3.5 text-base rounded-full font-extrabold',
-  pill: 'px-8 py-3.5 text-base rounded-full font-extrabold',
+  sm: 'px-4 py-2 text-xs rounded-full font-normal',
+  md: 'px-6 py-3 text-sm rounded-full font-normal',
+  lg: 'px-8 py-3.5 text-base rounded-full font-normal',
+  pill: 'px-8 py-3.5 text-base rounded-full font-normal',
 }
 
 export default function Button({

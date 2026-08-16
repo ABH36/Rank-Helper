@@ -15,12 +15,12 @@ export default function Section({
         {(eyebrow || title || subtitle) && (
           <div className="mx-auto mb-14 max-w-3xl text-center">
             {eyebrow && (
-              <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1 text-xs font-bold tracking-wider text-primary uppercase backdrop-blur-md">
+              <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1 text-xs font-normal tracking-wider text-primary uppercase backdrop-blur-md">
                 {eyebrow}
               </span>
             )}
             {title && (
-              <h2 className="font-heading text-3xl font-extrabold tracking-tight text-text sm:text-4xl lg:text-5xl">
+              <h2 className="font-heading text-3xl font-normal tracking-tight text-text sm:text-4xl lg:text-5xl">
                 {title}
               </h2>
             )}

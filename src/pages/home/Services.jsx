@@ -14,6 +14,7 @@ import {
 import Section from '../../components/common/Section'
 import Card from '../../components/common/Card'
 import Badge from '../../components/common/Badge'
+import RevealBox from '../../components/common/RevealBox'
 
 const SERVICES = [
   {
@@ -90,38 +91,43 @@ export default function Services() {
       subtitle="Purpose-built modules designed to supercharge your research, technical health, content, and real rankings."
     >
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {SERVICES.map(({ icon: Icon, title, tag, variant, description }) => (
-          <Card
+        {SERVICES.map(({ icon: Icon, title, tag, variant, description }, i) => (
+          <RevealBox
             key={title}
-            className="group relative flex flex-col justify-between text-left transition-all duration-300 hover:border-primary/50"
+            direction="fade-up"
+            delay={i * 0.07}
+            threshold={0.08}
           >
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary border border-primary/20 shadow-sm transition-all group-hover:scale-110 group-hover:bg-primary group-hover:text-[#061006]">
-                  <Icon size={20} />
-                </span>
-                <Badge variant={variant}>{tag}</Badge>
+            <Card
+              className="group relative flex flex-col justify-between text-left transition-all duration-300 hover:border-primary/50 card-hover-premium h-full"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary border border-primary/20 shadow-sm transition-all group-hover:scale-110 group-hover:bg-primary group-hover:text-[#061006]">
+                    <Icon size={20} />
+                  </span>
+                  <Badge variant={variant}>{tag}</Badge>
+                </div>
+
+                <h3 className="font-heading text-lg font-normal text-text flex items-center justify-between">
+                  <span>{title}</span>
+                  <ArrowUpRight size={18} className="text-text-muted transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary" />
+                </h3>
+
+                <p className="mt-2 text-sm text-text-muted leading-relaxed">{description}</p>
               </div>
 
-              <h3 className="font-heading text-lg font-bold text-text flex items-center justify-between">
-                <span>{title}</span>
-                <ArrowUpRight size={18} className="text-text-muted transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary" />
-              </h3>
-
-              <p className="mt-2 text-sm text-text-muted leading-relaxed">{description}</p>
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-border flex items-center justify-between text-xs font-semibold text-primary opacity-0 transition-opacity group-hover:opacity-100">
-              <span className="flex items-center gap-1">
-                <Sparkles size={12} />
-                Launch Tool
-              </span>
-              <span>→</span>
-            </div>
-          </Card>
+              <div className="mt-6 pt-4 border-t border-border flex items-center justify-between text-xs font-normal text-primary opacity-0 transition-opacity group-hover:opacity-100">
+                <span className="flex items-center gap-1">
+                  <Sparkles size={12} />
+                  Launch Tool
+                </span>
+                <span>→</span>
+              </div>
+            </Card>
+          </RevealBox>
         ))}
       </div>
     </Section>
   )
 }
-
