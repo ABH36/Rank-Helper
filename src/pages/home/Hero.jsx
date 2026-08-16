@@ -66,8 +66,8 @@ export default function Hero() {
               size="lg"
               className="glow-md hover:glow-lg"
             >
-              <ScrambleText text="Start Free — No Card" />
-              <ArrowRight size={18} />
+              <ScrambleText text="Start Free" />
+              <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
             </Button>
             <Button as="a" href="#services" variant="outline" size="lg">
               <ScrambleText text="Explore 9 Tools" />

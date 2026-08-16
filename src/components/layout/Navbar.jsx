@@ -55,7 +55,7 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Desktop CTA */}
+    
           <div className="hidden shrink-0 items-center gap-7 md:flex">
             <ThemeToggle />
             <Button as={Link} to="/login" variant="ghost" size="sm">
