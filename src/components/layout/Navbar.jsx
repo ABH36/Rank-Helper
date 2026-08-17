@@ -52,10 +52,12 @@ export default function Navbar({ showActions = true, leftAccessory = null }) {
       <div className="mx-auto max-w-7xl rounded-2xl border border-border-strong bg-bg/80 shadow-[0_4px_24px_var(--glow)] backdrop-blur-2xl transition-all duration-300 glass-panel">
         <Container className="flex h-16 items-center justify-between gap-3">
 
-          {/* Logo (+ optional accessory before it) */}
+          {/* Logo (+ optional accessory before it) — goes to the dashboard
+              if already signed in, or the login page otherwise, rather than
+              always bouncing back to the marketing homepage. */}
           <div className="flex shrink-0 items-center gap-2">
             {leftAccessory}
-            <Logo />
+            <Logo to={isAuthenticated ? '/app' : '/login'} />
           </div>
 
           {/* Desktop nav */}

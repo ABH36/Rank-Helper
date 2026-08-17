@@ -149,6 +149,27 @@ export default function GscDashboard() {
     () => cachedUi?.lastFetchedKey ?? { overview: null, performance: null, insights: null },
   )
 
+  // There's no "am I connected?" endpoint, so we probe with a throwaway
+  // check call the moment this page loads — before showing the site/date
+  // form at all — rather than waiting for the user to hit Run and only
+  // then discovering they need to connect Google. The JWT is still
+  // attached automatically by client.js on this call, same as every other
+  // request; connecting Google doesn't replace being logged in, it's an
+  // additional requirement on top of it.
+  const [connectionStatus, setConnectionStatus] = useState('checking') // checking | connected | not-connected
+
+  useEffect(() => {
+    let cancelled = false
+    gscApi
+      .check({ siteUrl: 'https://example.com/' })
+      .then(() => { if (!cancelled) setConnectionStatus('connected') })
+      .catch((err) => {
+        if (cancelled) return
+        setConnectionStatus(isGscNotConnected(err) ? 'not-connected' : 'connected')
+      })
+    return () => { cancelled = true }
+  }, [])
+
   const overviewApi = useApi(gscApi.overview, 'gsc-overview')
   const performanceApi = useApi(gscApi.performance, 'gsc-performance')
   const insightsApi = useApi(gscApi.insights, 'gsc-insights')
@@ -189,6 +210,34 @@ export default function GscDashboard() {
       apiForTab[tab].run({ siteUrl: siteUrl.trim(), startDate, endDate })
       setLastFetchedKey((prev) => ({ ...prev, [tab]: currentKey }))
     }
+  }
+
+  if (connectionStatus === 'checking') {
+    return (
+      <div>
+        <h1 className="font-heading text-2xl font-normal text-text sm:text-3xl">Search Console Insights</h1>
+        <p className="mt-1.5 text-text-muted">
+          Actionable CTR quick wins, low-hanging fruit, and content gap analytics from live Google Search Console.
+        </p>
+        <div className="mt-8">
+          <WaitState label="Checking Google connection…" />
+        </div>
+      </div>
+    )
+  }
+
+  if (connectionStatus === 'not-connected') {
+    return (
+      <div>
+        <h1 className="font-heading text-2xl font-normal text-text sm:text-3xl">Search Console Insights</h1>
+        <p className="mt-1.5 text-text-muted">
+          Actionable CTR quick wins, low-hanging fruit, and content gap analytics from live Google Search Console.
+        </p>
+        <div className="mt-8">
+          <ConnectPrompt />
+        </div>
+      </div>
+    )
   }
 
   return (

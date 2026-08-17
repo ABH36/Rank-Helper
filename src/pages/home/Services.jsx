@@ -13,8 +13,12 @@ import {
   Users,
 } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import Section from '../../components/common/Section'
 import RevealBox from '../../components/common/RevealBox'
+import { useAuth } from '../../context/AuthContext'
+
+const MotionLink = motion.create(Link)
 
 const SERVICES = [
   {
@@ -105,15 +109,22 @@ const SERVICES = [
 
 // Flat, rounded, transparent glass rectangles — no rotation/3D — but with a
 // tasteful hover lift + glow + icon pop, so they still feel alive without
-// the heavier 3D-flip mechanics the grid previously used.
+// the heavier 3D-flip mechanics the grid previously used. Every card is a
+// real link now: signed-in visitors land straight in the dashboard, signed-
+// out visitors are prompted to log in first — same pattern as the navbar
+// logo and the hero's "Start Free" button.
 function ServiceCard({ service, index }) {
   const { icon: Icon, title, description, stat, statLabel } = service
+  const { isAuthenticated } = useAuth()
+  const target = isAuthenticated ? '/app' : '/login'
+
   return (
     <RevealBox direction="fade-up" delay={index * 0.04} threshold={0.08}>
-      <motion.div
+      <MotionLink
+        to={target}
         initial="rest"
         whileHover="hover"
-        className="group flex h-full flex-col justify-between rounded-2xl border border-border bg-surface-card/70 p-6 text-left shadow-sm backdrop-blur-md"
+        className="group flex h-full cursor-pointer flex-col justify-between rounded-2xl border border-border bg-surface-card/70 p-6 text-left shadow-sm backdrop-blur-md"
         variants={{
           rest: { y: 0, boxShadow: '0 1px 2px rgba(0,0,0,0.04)', borderColor: 'var(--color-border)' },
           hover: { y: -6, boxShadow: '0 20px 44px -14px var(--glow)', borderColor: 'var(--color-primary)' },
@@ -135,7 +146,7 @@ function ServiceCard({ service, index }) {
           <span className="font-heading text-xl font-normal text-primary">{stat}</span>
           <span className="text-xs text-text-muted">{statLabel}</span>
         </div>
-      </motion.div>
+      </MotionLink>
     </RevealBox>
   )
 }
