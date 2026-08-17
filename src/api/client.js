@@ -13,7 +13,7 @@ export const TIMEOUTS = {
 }
 
 const client = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://seo-seo-backend.qbol3h.easypanel.host',
   headers: { 'Content-Type': 'application/json' },
   timeout: TIMEOUTS.default,
 })

@@ -24,6 +24,9 @@ export function AuthProvider({ children }) {
 
   const login = async ({ username, password }) => {
     const res = await authApi.login({ username, password })
+    if (!res || typeof res !== 'object' || !res.jwt) {
+      throw new Error('Invalid authentication response from backend.')
+    }
     setJwt(res.jwt)
     setUser({ userId: res.userId, username, roles: res.roles })
     return res
