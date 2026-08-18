@@ -13,7 +13,7 @@ export default function AuthLayout() {
 
         <div className="flex flex-1 flex-col items-center justify-center py-12">
           <Container className="flex w-full max-w-md flex-col items-center">
-            <div className="w-full rounded-2xl border border-border bg-surface-card/90 p-8 shadow-sm backdrop-blur-md">
+            <div className="w-full rounded-2xl border border-border bg-surface-card/90 p-6 shadow-sm backdrop-blur-md sm:p-8">
               <Outlet />
             </div>
           </Container>
