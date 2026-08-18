@@ -13,13 +13,22 @@ export default function Dashboard() {
       <h1 className="font-heading text-2xl font-normal text-text sm:text-3xl">
         Welcome back{user?.username ? `, ${user.username}` : ''}
       </h1>
-      <p className="mt-1.5 text-text-muted">Pick a tool to get started.</p>
+      <p className="mt-1.5 text-text-muted">
+        {APP_NAV_ITEMS.length} SEO tools ready to use — pick one to get started.
+      </p>
 
       <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-        {APP_NAV_ITEMS.map(({ icon: Icon, title, description, route }) => (
-          <Card key={route} className="flex flex-col justify-between">
+        {APP_NAV_ITEMS.map(({ icon: Icon, title, description, route, accent }) => (
+          <Card key={route} className="relative flex flex-col justify-between overflow-hidden">
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-1"
+              style={{ background: `linear-gradient(90deg, ${accent}, transparent)` }}
+            />
             <div>
-              <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <span
+                className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl"
+                style={{ background: `color-mix(in srgb, ${accent} 14%, transparent)`, color: accent }}
+              >
                 <Icon size={20} />
               </span>
               <h3 className="font-heading text-lg font-normal text-text">{title}</h3>

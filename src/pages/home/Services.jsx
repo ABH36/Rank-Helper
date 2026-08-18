@@ -20,6 +20,19 @@ import { useAuth } from '../../context/AuthContext'
 
 const MotionLink = motion.create(Link)
 
+// Cycled across the cards so the grid reads as colorful rather than one
+// flat tone repeated twelve times — same theme-aware tokens (and same
+// technique) used for the Dashboard's tool grid, kept local here since this
+// is marketing-page data (12 services, 3 of them not real app tools) rather
+// than the authenticated app's tool config.
+const ACCENTS = [
+  'var(--color-primary)',
+  'var(--color-accent-orange)',
+  'var(--color-primary-emerald)',
+  'var(--color-accent-lime)',
+  'var(--color-primary-bright)',
+]
+
 const SERVICES = [
   {
     icon: Search,
@@ -105,7 +118,7 @@ const SERVICES = [
     stat: '34',
     statLabel: 'content gaps found',
   },
-]
+].map((service, i) => ({ ...service, accent: ACCENTS[i % ACCENTS.length] }))
 
 // Flat, rounded, transparent glass rectangles — no rotation/3D — but with a
 // tasteful hover lift + glow + icon pop, so they still feel alive without
@@ -114,7 +127,7 @@ const SERVICES = [
 // out visitors are prompted to log in first — same pattern as the navbar
 // logo and the hero's "Start Free" button.
 function ServiceCard({ service, index }) {
-  const { icon: Icon, title, description, stat, statLabel } = service
+  const { icon: Icon, title, description, stat, statLabel, accent } = service
   const { isAuthenticated } = useAuth()
   const target = isAuthenticated ? '/app' : '/login'
 
@@ -124,16 +137,21 @@ function ServiceCard({ service, index }) {
         to={target}
         initial="rest"
         whileHover="hover"
-        className="group flex h-full cursor-pointer flex-col justify-between rounded-2xl border border-border bg-surface-card/70 p-6 text-left shadow-sm backdrop-blur-md"
+        className="group relative flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border border-border bg-surface-card/70 p-6 text-left shadow-sm backdrop-blur-md"
         variants={{
           rest: { y: 0, boxShadow: '0 1px 2px rgba(0,0,0,0.04)', borderColor: 'var(--color-border)' },
           hover: { y: -6, boxShadow: '0 20px 44px -14px var(--glow)', borderColor: 'var(--color-primary)' },
         }}
         transition={{ type: 'spring', stiffness: 320, damping: 24 }}
       >
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-1"
+          style={{ background: `linear-gradient(90deg, ${accent}, transparent)` }}
+        />
         <div>
           <motion.span
-            className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary"
+            className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl"
+            style={{ background: `color-mix(in srgb, ${accent} 14%, transparent)`, color: accent }}
             variants={{ rest: { scale: 1, rotate: 0 }, hover: { scale: 1.1, rotate: -6 } }}
             transition={{ type: 'spring', stiffness: 380, damping: 18 }}
           >
@@ -143,7 +161,7 @@ function ServiceCard({ service, index }) {
           <p className="mt-2 text-sm text-text-muted leading-relaxed">{description}</p>
         </div>
         <div className="mt-6 flex items-baseline gap-2 border-t border-border pt-4">
-          <span className="font-heading text-xl font-normal text-primary">{stat}</span>
+          <span className="font-heading text-xl font-normal" style={{ color: accent }}>{stat}</span>
           <span className="text-xs text-text-muted">{statLabel}</span>
         </div>
       </MotionLink>
