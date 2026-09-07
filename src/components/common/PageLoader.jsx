@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { Sparkles } from 'lucide-react'
+import logoIcon from '../../assets/logo/logo-icon.webp'
 
 export default function PageLoader({ visible }) {
   return (
@@ -19,9 +19,9 @@ export default function PageLoader({ visible }) {
               opacity: [0.7, 1, 0.7],
             }}
             transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
-            className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-tr from-primary-emerald to-primary shadow-[0_0_40px_var(--glow)] text-[#061006]"
+            className="flex h-16 w-16 items-center justify-center drop-shadow-[0_0_40px_var(--glow)]"
           >
-            <Sparkles size={30} />
+            <img src={logoIcon} alt="RankHelper" className="h-full w-full object-contain" />
           </motion.div>
 
           {/* Brand name */}

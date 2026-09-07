@@ -4,6 +4,7 @@ import { LayoutGrid, LogOut, Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Container from '../common/Container'
 import Button from '../common/Button'
+import AnimatedButton from '../common/AnimatedButton'
 import ThemeToggle from '../common/ThemeToggle'
 import ScrambleText from '../common/ScrambleText'
 import Logo from '../common/Logo'
@@ -51,93 +52,94 @@ export default function Navbar({ showActions = true, leftAccessory = null }) {
   return (
     <header className="relative z-50 w-full px-3 py-3 sm:px-6 sm:py-4">
 
-      <div className="mx-auto max-w-7xl rounded-2xl border border-border-strong bg-bg/80 shadow-[0_4px_24px_var(--glow)] backdrop-blur-2xl transition-all duration-300 glass-panel">
-        <Container className="flex h-16 items-center justify-between gap-3">
+      {/* No outer bar/card wrapping the whole row — logo, nav pill, and
+          actions float directly on the page background (VeloSphere
+          reference header), instead of being boxed inside one big glass
+          bar. Only the center nav keeps its own pill/glass treatment. */}
+      <Container className="flex h-16 items-center justify-between gap-3">
 
-          {/* Logo (+ optional accessory before it) — goes to the dashboard
-              if already signed in, or the login page otherwise, rather than
-              always bouncing back to the marketing homepage. */}
-          <div className="flex shrink-0 items-center gap-2">
-            {leftAccessory}
-            <Logo to={isAuthenticated ? '/app' : '/login'} />
+        {/* Logo (+ optional accessory before it) — goes to the dashboard
+            if already signed in, or the login page otherwise, rather than
+            always bouncing back to the marketing homepage. */}
+        <div className="flex shrink-0 items-center gap-2">
+          {leftAccessory}
+          <Logo to={isAuthenticated ? '/app' : '/login'} />
+        </div>
+
+        {/* Desktop nav — routes to "/" + the section hash rather than a
+            plain #anchor, so clicking these from /login, /app/*, etc.
+            actually navigates home first instead of just appending a
+            hash to whatever page you're already on (Home.jsx scrolls to
+            the matching section once it mounts). */}
+        <nav className="hidden items-center gap-3 rounded-full border border-border-strong bg-surface/70 px-2 py-1.5 shadow-[0_4px_24px_var(--glow)] backdrop-blur-2xl transition-all duration-300 glass-panel md:flex lg:gap-10 lg:px-4">
+          {NAV_LINKS.map((link) => (
+            <Link key={link.href} to={`/${link.href}`} className={navLinkClass()}>
+              <ScrambleText text={link.label} />
+            </Link>
+          ))}
+        </nav>
+
+        {showActions && (
+          <div className="hidden shrink-0 items-center gap-7 md:flex">
+            <ThemeToggle />
+            {isAuthenticated ? (
+              <>
+                <Button as={Link} to="/app" variant="secondary" size="sm">
+                  <LayoutGrid size={15} />
+                  <ScrambleText text="Dashboard" />
+                </Button>
+                <Button variant="ghost" size="sm" onClick={handleLogout}>
+                  <LogOut size={15} />
+                  <ScrambleText text="Log out" />
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button as={Link} to="/login" variant="ghost" size="sm">
+                  <ScrambleText text="Log in" />
+                </Button>
+                <Button as={Link} to="/signup" variant="primary" size="sm">
+                  <ScrambleText text="Get Started" />
+                </Button>
+              </>
+            )}
           </div>
+        )}
 
-          {/* Desktop nav — routes to "/" + the section hash rather than a
-              plain #anchor, so clicking these from /login, /app/*, etc.
-              actually navigates home first instead of just appending a
-              hash to whatever page you're already on (Home.jsx scrolls to
-              the matching section once it mounts). */}
-          <nav className="hidden items-center gap-3 rounded-full border border-primary/30 bg-surface-2/40 px-2 py-1.5 md:flex lg:gap-17 lg:px-3">
-            {NAV_LINKS.map((link) => (
-              <Link key={link.href} to={`/${link.href}`} className={navLinkClass()}>
-                <ScrambleText text={link.label} />
-              </Link>
-            ))}
-          </nav>
-
-          {showActions && (
-            <div className="hidden shrink-0 items-center gap-7 md:flex">
-              <ThemeToggle />
-              {isAuthenticated ? (
-                <>
-                  <Button as={Link} to="/app" variant="secondary" size="sm">
-                    <LayoutGrid size={15} />
-                    <ScrambleText text="Dashboard" />
-                  </Button>
-                  <Button variant="ghost" size="sm" onClick={handleLogout}>
-                    <LogOut size={15} />
-                    <ScrambleText text="Log out" />
-                  </Button>
-                </>
+        {/* Mobile controls */}
+        <div className="flex items-center gap-2 md:hidden">
+          {showActions && <ThemeToggle />}
+          <AnimatedButton
+            onClick={() => setOpen((o) => !o)}
+            aria-label="Toggle menu"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-surface/60 text-text transition-colors hover:border-primary/40"
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              {open ? (
+                <motion.span
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0,   opacity: 1 }}
+                  exit={{   rotate:  90,  opacity: 0 }}
+                  transition={{ duration: 0.18 }}
+                >
+                  <X size={18} />
+                </motion.span>
               ) : (
-                <>
-                  <Button as={Link} to="/login" variant="ghost" size="sm">
-                    <ScrambleText text="Log in" />
-                  </Button>
-                  <Button as={Link} to="/signup" variant="primary" size="sm">
-                    <ScrambleText text="Get Started" />
-                  </Button>
-                </>
+                <motion.span
+                  key="menu"
+                  initial={{ rotate: 90,  opacity: 0 }}
+                  animate={{ rotate: 0,   opacity: 1 }}
+                  exit={{   rotate: -90,  opacity: 0 }}
+                  transition={{ duration: 0.18 }}
+                >
+                  <Menu size={18} />
+                </motion.span>
               )}
-            </div>
-          )}
-
-          {/* Mobile controls */}
-          <div className="flex items-center gap-2 md:hidden">
-            {showActions && <ThemeToggle />}
-            <button
-              type="button"
-              onClick={() => setOpen((o) => !o)}
-              aria-label="Toggle menu"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-surface/60 text-text transition-all hover:border-primary/40"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {open ? (
-                  <motion.span
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0,   opacity: 1 }}
-                    exit={{   rotate:  90,  opacity: 0 }}
-                    transition={{ duration: 0.18 }}
-                  >
-                    <X size={18} />
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="menu"
-                    initial={{ rotate: 90,  opacity: 0 }}
-                    animate={{ rotate: 0,   opacity: 1 }}
-                    exit={{   rotate: -90,  opacity: 0 }}
-                    transition={{ duration: 0.18 }}
-                  >
-                    <Menu size={18} />
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </button>
-          </div>
-        </Container>
-      </div>
+            </AnimatePresence>
+          </AnimatedButton>
+        </div>
+      </Container>
 
       {/* Mobile slide-down menu */}
       <AnimatePresence>

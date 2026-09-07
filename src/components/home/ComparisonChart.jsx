@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import RevealBox from '../common/RevealBox'
+import { BUTTON_MOTION_VARIANTS } from '../common/buttonMotion'
 
 const TABS = [
   {
@@ -55,13 +56,17 @@ export default function ComparisonChart({ className = '' }) {
       {/* Tab switcher */}
       <RevealBox direction="fade-up" delay={0.1} className="mt-5 flex gap-2 flex-wrap">
         {TABS.map((t) => (
-          <button
+          <motion.button
             key={t.id}
             type="button"
             onClick={() => setActiveTab(t.id)}
-            className={`relative rounded-full px-4 py-1.5 text-xs font-normal transition-all duration-200 cursor-pointer ${
+            whileHover="hover"
+            whileTap="tap"
+            initial="rest"
+            variants={BUTTON_MOTION_VARIANTS}
+            className={`relative cursor-pointer rounded-full px-4 py-1.5 text-xs font-normal transition-colors duration-200 ${
               activeTab === t.id
-                ? 'bg-primary text-[#061006] shadow-[0_0_14px_var(--glow)]'
+                ? 'bg-primary text-on-primary shadow-[0_0_14px_var(--glow)]'
                 : 'border border-border bg-surface-2/60 text-text-muted hover:border-primary/40 hover:text-primary'
             }`}
           >
@@ -74,7 +79,7 @@ export default function ComparisonChart({ className = '' }) {
               />
             )}
             {t.label}
-          </button>
+          </motion.button>
         ))}
       </RevealBox>
 

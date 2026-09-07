@@ -1,16 +1,16 @@
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
+import AnimatedButton from './AnimatedButton'
 
 export default function ThemeToggle({ className = '' }) {
   const { theme, toggleTheme } = useTheme()
   const isDark = theme === 'dark'
 
   return (
-    <button
-      type="button"
+    <AnimatedButton
       onClick={toggleTheme}
       aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
-      className={`relative inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-border bg-surface/60 backdrop-blur-md text-text-muted transition-all duration-300 hover:border-primary/50 hover:bg-surface-2 hover:text-primary hover:scale-105 active:scale-95 ${className}`}
+      className={`inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-surface/60 backdrop-blur-md text-text-muted transition-colors duration-300 hover:border-primary/50 hover:bg-surface-2 hover:text-primary ${className}`}
     >
       <span className="sr-only">Toggle theme</span>
       <div className="relative h-4 w-4">
@@ -27,7 +27,6 @@ export default function ThemeToggle({ className = '' }) {
           }`}
         />
       </div>
-    </button>
+    </AnimatedButton>
   )
 }
-

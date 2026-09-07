@@ -8,6 +8,7 @@ import { isGscNotConnected } from '../../../utils/errors'
 import { getToolCache, setToolCache } from '../../../utils/toolCache'
 import Input from '../../../components/common/Input'
 import Button from '../../../components/common/Button'
+import AnimatedButton from '../../../components/common/AnimatedButton'
 import Card from '../../../components/common/Card'
 import Badge from '../../../components/common/Badge'
 import WaitState from '../../../components/tools/WaitState'
@@ -278,16 +279,15 @@ export default function GscDashboard() {
 
       <div className="mt-6 inline-flex rounded-full border border-border bg-surface-2/60 p-1">
         {TABS.map((tab) => (
-          <button
+          <AnimatedButton
             key={tab.key}
-            type="button"
             onClick={() => handleTabChange(tab.key)}
-            className={`rounded-full px-4 py-1.5 text-sm transition-all ${
-              activeTab === tab.key ? 'bg-primary text-[#061006] shadow-sm' : 'text-text-muted hover:text-text'
+            className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+              activeTab === tab.key ? 'bg-primary text-on-primary shadow-sm' : 'text-text-muted hover:text-text'
             }`}
           >
             {tab.label}
-          </button>
+          </AnimatedButton>
         ))}
       </div>
 

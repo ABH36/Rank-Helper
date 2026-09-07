@@ -3,11 +3,9 @@ import { useLocation } from 'react-router-dom'
 import Hero from './home/Hero'
 import About from './home/About'
 import Services from './home/Services'
+import Features from './home/Features'
+import PerformanceCli from './home/PerformanceCli'
 import LogoMarquee from '../components/common/LogoMarquee'
-import ComparisonChart from '../components/home/ComparisonChart'
-import TerminalCard from '../components/home/TerminalCard'
-import RevealBox from '../components/common/RevealBox'
-import Container from '../components/common/Container'
 
 export default function Home() {
   const { hash } = useLocation()
@@ -31,42 +29,26 @@ export default function Home() {
       {/* ── Hero ── */}
       <Hero />
 
-      {/* ── Logo Marquee (right below hero) ── */}
-      <div className="hero-aurora-bg relative border-y border-border backdrop-blur-md">
-        <LogoMarquee />
-      </div>
+      {/* ── Logo Marquee (right below hero) — deep-sea strip: wavy top/
+          bottom edges, glass-bubble pills, and drifting motes, all styled
+          in LogoMarquee.jsx itself rather than wrapped here. ── */}
+      <LogoMarquee />
 
       {/* ── About ── */}
       <About />
 
-      {/* ── Comparison Chart + Terminal Card ── side-by-side */}
-      <section className="py-16 sm:py-24 bg-surface/40">
-        <Container>
-          <RevealBox direction="fade-up" className="mb-10 text-center">
-            <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1 text-xs font-normal tracking-wider text-primary uppercase backdrop-blur-md">
-              Performance & CLI
-            </span>
-            <h2 className="mt-3 font-heading text-3xl font-normal tracking-tight text-text sm:text-4xl">
-              Built for speed, built for SEOs
-            </h2>
-            <p className="mt-4 text-base text-text-muted sm:text-lg leading-relaxed max-w-2xl mx-auto">
-              Benchmark results speak for themselves — and the CLI keeps you in control.
-            </p>
-          </RevealBox>
-
-          <div className="grid gap-8 lg:grid-cols-2">
-            <RevealBox direction="fade-left" delay={0.1}>
-              <ComparisonChart className="h-full" />
-            </RevealBox>
-            <RevealBox direction="fade-right" delay={0.18}>
-              <TerminalCard className="h-full" />
-            </RevealBox>
-          </div>
-        </Container>
-      </section>
+      {/* ── Performance & CLI (Comparison Chart + Terminal Card) — deep-sea
+          backdrop (wave lead-in, drifting motes, animated glow blobs) now
+          lives in PerformanceCli.jsx itself. ── */}
+      <PerformanceCli />
 
       {/* ── Services ── */}
       <Services />
+
+      {/* ── Features — was already fully built and themed but never wired
+          into the page, leaving the navbar's "Features" link pointing at
+          a nonexistent #features anchor. ── */}
+      <Features />
     </>
   )
 }

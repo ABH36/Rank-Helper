@@ -1,11 +1,12 @@
 import { useMemo } from 'react'
 import { motion } from 'framer-motion'
+import { BUTTON_MOTION_VARIANTS, SWEEP_TRANSITION, SWEEP_VARIANTS } from './buttonMotion'
 
 const VARIANTS = {
   primary:
-    'bg-gradient-to-r from-primary to-accent-lime text-[#061006] font-normal shadow-[0_0_24px_var(--glow-lime)] hover:shadow-[0_0_36px_var(--glow-lime)]',
+    'bg-gradient-to-r from-primary to-accent-lime text-on-primary font-normal shadow-[0_0_24px_var(--glow-lime)] hover:shadow-[0_0_36px_var(--glow-lime)]',
   glow:
-    'bg-gradient-to-r from-primary-emerald to-primary text-[#061006] font-normal shadow-[0_0_24px_var(--glow)] hover:shadow-[0_0_36px_var(--glow)]',
+    'bg-gradient-to-r from-primary-emerald to-primary text-on-primary font-normal shadow-[0_0_24px_var(--glow)] hover:shadow-[0_0_36px_var(--glow)]',
   secondary:
     'bg-primary/10 text-text hover:bg-primary-emerald/20 border border-primary/20 hover:border-primary/40',
   outline:
@@ -37,13 +38,14 @@ export default function Button({
   return (
     <MotionAs
       whileHover="hover"
-      whileTap={{ scale: 0.96, y: 0 }}
+      whileTap="tap"
       initial="rest"
-      transition={{ type: 'spring', stiffness: 420, damping: 24 }}
-      variants={{
-        rest: { y: 0, scale: 1 },
-        hover: { y: -3, scale: 1.02 },
-      }}
+      // Hover/rest settle through a near-critically-damped spring (smooth,
+      // barely any overshoot) so lifting off and releasing a tap both glide
+      // rather than snap. Tap-down itself stays a touch stiffer so the
+      // press still reads as instant, responsive feedback — only the
+      // motion *back* out of it is what needed slowing down.
+      variants={BUTTON_MOTION_VARIANTS}
       className={`group relative inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50 select-none ${VARIANTS[variant] || VARIANTS.primary} ${SIZES[size] || SIZES.md} ${className}`}
       {...props}
     >
@@ -52,8 +54,8 @@ export default function Button({
       <motion.span
         aria-hidden="true"
         className="pointer-events-none absolute inset-y-0 left-0 w-1/3 -skew-x-12 bg-white/25"
-        variants={{ rest: { x: '-150%', opacity: 0 }, hover: { x: '350%', opacity: 1 } }}
-        transition={{ duration: 0.6, ease: 'easeInOut' }}
+        variants={SWEEP_VARIANTS}
+        transition={SWEEP_TRANSITION}
       />
       <span className="relative inline-flex items-center gap-2">{children}</span>
     </MotionAs>

@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import {
   ArrowDownRight, ArrowRight, ArrowUpRight, Bell, Gauge, LayoutGrid, LineChart,
-  Link2, PieChart, Search, Settings, Sparkles, Table2, TrendingUp, User, Zap,
+  Link2, PieChart, Search, Settings, Table2, TrendingUp, User, Zap,
 } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
+import Button from '../common/Button'
+import logoIcon from '../../assets/logo/logo-icon.webp'
 
 const LOGO_MS = 1300
 const PROMPT_MS = 3400 // how long the headline+button prompt shows before auto-advancing
@@ -13,7 +15,10 @@ const SETTLE_MS = 1100 // how long the fully-assembled dashboard holds crisp bef
 
 const EASE = [0.22, 1, 0.36, 1]
 
-const ACCENT_GRADIENT = 'linear-gradient(90deg, #7c3aed, #d946ef, #f472b6)'
+// Blue-into-violet, matching the rest of the site's deep-sea palette
+// (the hero's own glow blobs mix this exact blue with violet) rather than
+// the flatter magenta-violet the mockup used before.
+const ACCENT_GRADIENT = 'linear-gradient(90deg, #60a5fa, #7c3aed, #c4b5fd)'
 // These read as CSS custom properties (set inline on the root, per theme) rather
 // than fixed hex values, so every card/text usage below flips automatically
 // between the light lavender look and the dark ribbon look — no prop drilling.
@@ -37,11 +42,6 @@ const STATUS_STYLES = {
   Stable: { bg: 'rgba(234,179,8,0.18)', text: '#ca8a04' },
   Watch: { bg: 'rgba(239,68,68,0.18)', text: '#ef4444' },
 }
-// Same gradient PageLoader.jsx uses for the site's real reload-screen brand mark —
-// reused here so the hero's logo moment is identical to the rest of the site, not
-// a separate invented style.
-const LOGO_GRADIENT = 'linear-gradient(to top right, var(--color-primary-emerald), var(--color-primary))'
-
 const POP_TRANSITION = { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }
 
 // One-shot: peaks to solid white right as the logo zooms in and disappears, then
@@ -67,11 +67,8 @@ function LogoScene() {
       exit={{ opacity: 0, scale: 2.6, transition: { duration: 0.55, ease: [0.55, 0, 1, 0.45] } }}
       transition={POP_TRANSITION}
     >
-      <span
-        className="flex h-16 w-16 items-center justify-center rounded-2xl text-[#061006] shadow-lg"
-        style={{ background: LOGO_GRADIENT }}
-      >
-        <Sparkles size={30} className="animate-pulse" />
+      <span className="flex h-16 w-16 items-center justify-center drop-shadow-[0_0_28px_rgba(139,92,246,0.5)]">
+        <img src={logoIcon} alt="" className="h-full w-full object-contain" />
       </span>
       <span className="font-heading text-xl font-normal" style={{ color: TEXT_DARK }}>
         RankHelper
@@ -80,17 +77,19 @@ function LogoScene() {
   )
 }
 
-// Reveals text one character at a time, like it's being typed.
+// Reveals text one character at a time — each letter eases up into place
+// (fade + slight scale/lift) instead of just flicking to full opacity in
+// 0.01s, so the reveal reads as a smooth cascade, not a jittery flash.
 function TypewriterText({ text, color, delay = 0, step = 0.035 }) {
   return (
     <>
       {text.split('').map((char, i) => (
         <motion.span
           key={i}
-          style={{ color }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.01, delay: delay + i * step }}
+          style={{ color, display: 'inline-block' }}
+          initial={{ opacity: 0, y: 10, scale: 0.7 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1], delay: delay + i * step }}
         >
           {char === ' ' ? ' ' : char}
         </motion.span>
@@ -120,18 +119,19 @@ function PromptScene({ onStart }) {
         <br />
         <TypewriterText text={LINE_2} color={TEXT_DARK} delay={LINE_2_DELAY} />
       </p>
-      <motion.button
-        type="button"
-        onClick={onStart}
+      {/* The shared Button component — same spring hover/tap lift and
+          diagonal light sweep as the header's "Get Started", instead of
+          this mockup rolling its own plain CSS hover. */}
+      <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: BUTTON_DELAY }}
-        className="inline-flex items-center gap-2.5 rounded-full px-8 py-4 text-lg font-normal text-white shadow-xl transition-transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
-        style={{ background: ACCENT_GRADIENT }}
       >
-        Get Started
-        <ArrowRight size={20} />
-      </motion.button>
+        <Button type="button" onClick={onStart} variant="primary" size="lg">
+          Get Started
+          <ArrowRight size={20} />
+        </Button>
+      </motion.div>
     </motion.div>
   )
 }
@@ -144,8 +144,12 @@ function DashCard({ id, loose, className = '', children }) {
     <motion.div
       layoutId={id}
       layout
-      className={`rounded-xl border border-white/10 p-2.5 shadow-lg backdrop-blur-sm ${className}`}
-      style={{ background: CARD_BG, ...(loose ? { position: 'absolute', ...loose.pos } : {}) }}
+      className={`rounded-xl border border-white/10 p-2.5 backdrop-blur-sm ${className}`}
+      style={{
+        background: CARD_BG,
+        boxShadow: '0 4px 20px var(--glow)',
+        ...(loose ? { position: 'absolute', ...loose.pos } : {}),
+      }}
       initial={loose ? { opacity: 0, ...loose.from } : { opacity: 0 }}
       animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
       transition={{ duration: 0.9, delay: loose?.delay ?? 0, ease: EASE }}
@@ -158,7 +162,7 @@ function DashCard({ id, loose, className = '', children }) {
 function CardLabel({ icon: Icon, label }) {
   return (
     <p className="mb-1 flex items-center gap-1.5 text-[9px] font-normal uppercase tracking-widest" style={{ color: TEXT_MUTED }}>
-      <Icon size={10} style={{ color: '#c93fa8' }} />
+      <Icon size={10} style={{ color: '#60a5fa' }} />
       {label}
     </p>
   )
@@ -216,8 +220,8 @@ function Sidebar() {
       className="hidden w-11 shrink-0 flex-col items-center gap-3 py-3 sm:flex"
       style={{ background: HEADER_BG, borderRight: '1px solid rgba(150,120,170,0.12)' }}
     >
-      <span className="flex h-7 w-7 items-center justify-center rounded-lg text-white" style={{ background: ACCENT_GRADIENT }}>
-        <Sparkles size={13} />
+      <span className="flex h-7 w-7 items-center justify-center">
+        <img src={logoIcon} alt="" className="h-full w-full object-contain" />
       </span>
       {[LayoutGrid, TrendingUp, PieChart, Settings].map((Icon, i) => (
         <span key={i} className="flex h-7 w-7 items-center justify-center rounded-lg" style={{ color: TEXT_MUTED }}>
@@ -240,7 +244,7 @@ function LooseLayout() {
         <CardLabel icon={TrendingUp} label="Traffic Growth" />
         <p className="font-heading text-sm font-normal" style={{ color: TEXT_DARK }}>+68%</p>
         <svg viewBox="0 0 112 48" preserveAspectRatio="none" className="mt-1.5 h-8 w-full">
-          <path d={CHART_PATH} fill="none" stroke="#d946ef" strokeWidth="2.5" strokeLinecap="round" />
+          <path d={CHART_PATH} fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
         </svg>
       </DashCard>
 
@@ -248,12 +252,12 @@ function LooseLayout() {
         <CardLabel icon={LineChart} label="Keyword Volume" />
         <p className="font-heading text-sm font-normal" style={{ color: TEXT_DARK }}>8,100</p>
         <div className="mt-1.5">
-          <MiniBars values={[4, 6, 5, 8, 7, 9]} color="#a855f7" />
+          <MiniBars values={[4, 6, 5, 8, 7, 9]} color="#60a5fa" />
         </div>
       </DashCard>
 
       <DashCard id="pagespeed" loose={{ pos: { top: '4%', right: '3%', width: '24%' }, from: { x: 14, y: -6, scale: 0.95 }, delay: 0.1 }} className="flex items-center gap-2">
-        <Donut percent={88} color="#a855f7" size={38} />
+        <Donut percent={88} color="#60a5fa" size={38} />
         <div>
           <CardLabel icon={Zap} label="PageSpeed" />
           <p className="font-heading text-xs font-normal" style={{ color: TEXT_DARK }}>Fast</p>
@@ -263,7 +267,7 @@ function LooseLayout() {
       {/* Fills the column directly under Traffic Growth, closing the gap that
           was left empty when only the bottom row sat down there. */}
       <DashCard id="score" loose={{ pos: { top: '30%', left: '3%', width: '24%' }, from: { x: -4, y: 10, scale: 0.95 }, delay: 0.15 }} className="flex items-center gap-2">
-        <Donut percent={92} color="#d946ef" size={38} />
+        <Donut percent={92} color="#60a5fa" size={38} />
         <div>
           <CardLabel icon={Gauge} label="SEO Score" />
           <p className="font-heading text-xs font-normal" style={{ color: TEXT_DARK }}>Excellent</p>
@@ -300,7 +304,7 @@ function LooseLayout() {
         <div>
           <CardLabel icon={PieChart} label="Traffic Sources" />
           <div className="flex items-center gap-1.5">
-            {[['Organic', '#7c3aed'], ['Direct', '#d946ef'], ['Referral', '#f472b6']].map(([label, color]) => (
+            {[['Organic', '#7c3aed'], ['Direct', '#60a5fa'], ['Referral', '#c4b5fd']].map(([label, color]) => (
               <span key={label} className="h-1.5 w-1.5 rounded-full" style={{ background: color }} />
             ))}
           </div>
@@ -365,12 +369,12 @@ function AssembledLayout() {
               <svg viewBox="0 0 112 48" preserveAspectRatio="none" className="h-full w-full">
                 <defs>
                   <linearGradient id="traffic-fill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#d946ef" stopOpacity="0.35" />
-                    <stop offset="100%" stopColor="#d946ef" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.35" />
+                    <stop offset="100%" stopColor="#60a5fa" stopOpacity="0" />
                   </linearGradient>
                 </defs>
                 <path d={`${CHART_PATH} L110,46 L2,46 Z`} fill="url(#traffic-fill)" />
-                <path d={CHART_PATH} fill="none" stroke="#d946ef" strokeWidth="2" strokeLinecap="round" />
+                <path d={CHART_PATH} fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" />
               </svg>
               <span
                 className="absolute -top-1 right-4 rounded-md px-1.5 py-0.5 text-[8px] font-normal shadow"
@@ -382,7 +386,7 @@ function AssembledLayout() {
           </DashCard>
 
           <DashCard id="score" className="col-span-1 flex items-center gap-2.5 sm:col-span-2">
-            <Donut percent={92} color="#d946ef" />
+            <Donut percent={92} color="#60a5fa" />
             <div>
               <CardLabel icon={Gauge} label="SEO Score" />
               <p className="font-heading text-sm font-normal" style={{ color: TEXT_DARK }}>Excellent</p>
@@ -393,12 +397,12 @@ function AssembledLayout() {
             <CardLabel icon={LineChart} label="Keyword Volume" />
             <p className="font-heading text-sm font-normal" style={{ color: TEXT_DARK }}>8,100 / mo</p>
             <div className="mt-1.5">
-              <MiniBars values={[4, 6, 5, 8, 7, 9]} color="#a855f7" />
+              <MiniBars values={[4, 6, 5, 8, 7, 9]} color="#60a5fa" />
             </div>
           </DashCard>
 
           <DashCard id="pagespeed" className="col-span-1 flex items-center gap-2.5 sm:col-span-2">
-            <Donut percent={88} color="#a855f7" />
+            <Donut percent={88} color="#60a5fa" />
             <div>
               <CardLabel icon={Zap} label="PageSpeed" />
               <p className="font-heading text-sm font-normal" style={{ color: TEXT_DARK }}>Fast</p>
@@ -418,7 +422,7 @@ function AssembledLayout() {
             <Donut percent={55} color="#7c3aed" />
             <CardLabel icon={PieChart} label="Traffic Sources" />
             <div className="ml-auto flex items-center gap-4">
-              {[['Organic', '#7c3aed'], ['Direct', '#d946ef'], ['Referral', '#f472b6']].map(([label, color]) => (
+              {[['Organic', '#7c3aed'], ['Direct', '#60a5fa'], ['Referral', '#c4b5fd']].map(([label, color]) => (
                 <div key={label} className="flex items-center gap-1.5 text-[9px]" style={{ color: TEXT_MUTED }}>
                   <span className="h-1.5 w-1.5 rounded-full" style={{ background: color }} />
                   {label}
@@ -449,23 +453,24 @@ function AssembledLayout() {
   )
 }
 
-// Light mode: dark navy-on-lavender text + translucent lavender glass cards
-// (matches the reference video). Dark mode: light text + translucent white
-// glass cards, readable over the near-black ribbon background instead.
+// Light mode: dark navy-on-lavender text + translucent blue-violet glass
+// cards — the same "deep sea" glass the rest of the site uses. Dark mode:
+// light text + translucent blue-violet glass, readable over the near-black
+// ribbon background instead.
 const DASH_VARS_LIGHT = {
   '--dash-text': '#0a0a0a',
-  '--dash-text-muted': '#6b5b7a',
-  '--dash-card-bg': 'rgba(255, 255, 255, 0.5)',
-  '--dash-header-bg': 'rgba(255, 255, 255, 0.35)',
-  '--dash-donut-hole': '#f7f3fc',
+  '--dash-text-muted': '#55486b',
+  '--dash-card-bg': 'rgba(219, 234, 254, 0.45)',
+  '--dash-header-bg': 'rgba(224, 231, 255, 0.35)',
+  '--dash-donut-hole': '#f5f7fc',
   '--dash-donut-track': 'rgba(107, 91, 122, 0.16)',
 }
 const DASH_VARS_DARK = {
   '--dash-text': '#f5f3ff',
   '--dash-text-muted': '#c9b8dc',
-  '--dash-card-bg': 'rgba(255, 255, 255, 0.07)',
-  '--dash-header-bg': 'rgba(255, 255, 255, 0.05)',
-  '--dash-donut-hole': '#1c1424',
+  '--dash-card-bg': 'rgba(96, 165, 250, 0.08)',
+  '--dash-header-bg': 'rgba(124, 58, 237, 0.08)',
+  '--dash-donut-hole': '#171130',
   '--dash-donut-track': 'rgba(255, 255, 255, 0.12)',
 }
 

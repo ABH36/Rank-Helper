@@ -1,6 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Section from '../../components/common/Section'
+import WaveDivider from '../../components/common/WaveDivider'
+
+// A few slow-drifting motes continuing the deep-sea ambience from the
+// LogoMarquee strip right above this section — pure background decoration,
+// kept entirely outside the 3D prism (which has its own history of
+// rendering glitches from stacked effects, see the comments further down)
+// so nothing here can interact with it.
+const ABOUT_MOTES = [
+  { left: '5%', top: '15%', size: 5, delay: 0 },
+  { left: '18%', top: '55%', size: 4, delay: 1.8 },
+  { left: '90%', top: '20%', size: 5, delay: 0.9 },
+  { left: '95%', top: '65%', size: 4, delay: 2.6 },
+]
 
 // Neutral slate for chart labels/legend/axis text — professional charts
 // keep color on the data marks (bars, segments, swatches) and use plain
@@ -199,13 +212,16 @@ function WorkflowDonutChart({ c, isActive }) {
   )
 }
 
-// One saturated hue per card — indigo, violet, fuchsia, rose — so the
-// prism cycles through real color rather than four shades of one purple.
-const INDIGO = {
-  ink: '#4338ca', muted: 'rgba(67,56,202,0.8)', soft: 'rgba(67,56,202,0.16)',
-  secondary: '#818cf8', tertiary: '#c7d2fe',
-  gradient: 'linear-gradient(150deg, #ffffff 0%, #eef0fe 40%, #c2c7fb 100%)',
-  glow: 'radial-gradient(circle, rgba(99,102,241,0.6) 0%, rgba(67,56,202,0.35) 45%, transparent 75%)',
+// One saturated hue per card — ocean blue, violet, sea teal, midnight
+// indigo — an aquatic spectrum instead of the old indigo/violet/fuchsia/
+// rose mix, so this section's prism reads as part of the same deep-sea
+// identity as the hero/strip above it rather than a disconnected warm
+// palette. Still four distinct hues, still cycles through real color.
+const OCEAN = {
+  ink: '#1d4ed8', muted: 'rgba(29,78,216,0.8)', soft: 'rgba(29,78,216,0.16)',
+  secondary: '#60a5fa', tertiary: '#bfdbfe',
+  gradient: 'linear-gradient(150deg, #ffffff 0%, #eaf1ff 40%, #b9d3fd 100%)',
+  glow: 'radial-gradient(circle, rgba(96,165,250,0.6) 0%, rgba(29,78,216,0.35) 45%, transparent 75%)',
 }
 const VIOLET = {
   ink: '#7c3aed', muted: 'rgba(124,58,237,0.8)', soft: 'rgba(124,58,237,0.16)',
@@ -213,23 +229,23 @@ const VIOLET = {
   gradient: 'linear-gradient(150deg, #ffffff 0%, #f3ecff 40%, #d3b8fd 100%)',
   glow: 'radial-gradient(circle, rgba(167,139,250,0.6) 0%, rgba(124,58,237,0.35) 45%, transparent 75%)',
 }
-const FUCHSIA = {
-  ink: '#a21caf', muted: 'rgba(162,28,175,0.8)', soft: 'rgba(162,28,175,0.16)',
-  secondary: '#f0abfc', tertiary: '#fae8ff',
-  gradient: 'linear-gradient(150deg, #ffffff 0%, #fbe9ff 40%, #f0aefc 100%)',
-  glow: 'radial-gradient(circle, rgba(232,121,249,0.6) 0%, rgba(162,28,175,0.35) 45%, transparent 75%)',
+const TEAL = {
+  ink: '#0e7490', muted: 'rgba(14,116,144,0.8)', soft: 'rgba(14,116,144,0.16)',
+  secondary: '#67e8f9', tertiary: '#cffafe',
+  gradient: 'linear-gradient(150deg, #ffffff 0%, #e6fbff 40%, #a5f3fc 100%)',
+  glow: 'radial-gradient(circle, rgba(103,232,249,0.6) 0%, rgba(14,116,144,0.35) 45%, transparent 75%)',
 }
-const ROSE = {
-  ink: '#be185d', muted: 'rgba(190,24,93,0.8)', soft: 'rgba(190,24,93,0.16)',
-  secondary: '#fb7185', tertiary: '#fecdd3',
-  gradient: 'linear-gradient(150deg, #ffffff 0%, #ffe9f1 40%, #fbb6ce 100%)',
-  glow: 'radial-gradient(circle, rgba(244,114,182,0.6) 0%, rgba(190,24,93,0.35) 45%, transparent 75%)',
+const MIDNIGHT = {
+  ink: '#3730a3', muted: 'rgba(55,48,163,0.8)', soft: 'rgba(55,48,163,0.16)',
+  secondary: '#a5b4fc', tertiary: '#e0e7ff',
+  gradient: 'linear-gradient(150deg, #ffffff 0%, #eef0ff 40%, #c3c9fb 100%)',
+  glow: 'radial-gradient(circle, rgba(129,140,248,0.6) 0%, rgba(55,48,163,0.35) 45%, transparent 75%)',
 }
 
 const POINTS = [
   {
     chart: DonutChart,
-    colors: INDIGO,
+    colors: OCEAN,
     title: 'Every Tool You Need, Built In',
     description:
       'Keyword Research, AI Content Generation, Technical Audits, PageSpeed Insights, Meta Tag and Schema generators, On-Page Scoring, and a robots.txt Analyzer — nine dedicated tools in one dashboard, each one grounded in real crawl data and live API results, not guesswork.',
@@ -247,7 +263,7 @@ const POINTS = [
   },
   {
     chart: BarChart,
-    colors: FUCHSIA,
+    colors: TEAL,
     title: 'Secure & Enterprise Grade',
     description:
       'Every one of our tools runs behind a JWT-authenticated API, and your Google Search Console OAuth tokens stay encrypted end-to-end in storage — so your crawl history, keyword data, and live performance numbers stay private, whether you’re a solo SEO or a full agency team.',
@@ -256,7 +272,7 @@ const POINTS = [
   },
   {
     chart: WorkflowDonutChart,
-    colors: ROSE,
+    colors: MIDNIGHT,
     title: 'One Connected SEO Workflow',
     description:
       'Keyword Research feeds straight into the Content Generator, the Technical Audit and robots.txt Analyzer catch crawl issues before they hurt rankings, PageSpeed and On-Page scoring keep every page tuned, and live Google Search Console Insights close the loop — no manual exports, no spreadsheets, no switching tabs between nine different tools.',
@@ -357,6 +373,22 @@ export default function About() {
       subtitle="From preliminary keyword discovery to tracking live Search Console performance, experience seamless automation."
       className="relative"
     >
+      {/* Continues the deep-sea current from the LogoMarquee strip right
+          above — a wave lead-in plus a few drifting motes, both purely
+          decorative and kept outside the 3D prism below (which has its own
+          history of rendering glitches from stacked effects — see the
+          comments on that panel further down — so nothing here touches it). */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-1">
+        <WaveDivider gradientId="wave-about" />
+      </div>
+      {ABOUT_MOTES.map((m, i) => (
+        <span
+          key={i}
+          className="pointer-events-none absolute rounded-full bg-blue-200 animate-float-slow animate-pulse-glow"
+          style={{ left: m.left, top: m.top, width: m.size, height: m.size, animationDelay: `${m.delay}s` }}
+        />
+      ))}
+
       <div ref={wrapperRef} className="relative" style={{ height: `${POINTS.length * 100}vh` }}>
         <div className="sticky top-20 flex min-h-[70vh] items-center">
           <div className="grid w-full items-center gap-10 lg:grid-cols-2">

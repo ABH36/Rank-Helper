@@ -1,7 +1,7 @@
 import React from 'react'
 
 const VARIANTS = {
-  emerald: 'bg-primary/10 text-primary dark:text-[#F0ABFC] border-primary/20',
+  emerald: 'bg-primary/10 text-primary dark:text-primary-bright border-primary/20',
   lime: 'bg-accent-lime/10 text-accent-lime border-accent-lime/25',
   slate: 'bg-surface-2/70 text-text-secondary border-border',
   // Severity colors for HIGH/MEDIUM/LOW-style issue lists (Audit, robots.txt

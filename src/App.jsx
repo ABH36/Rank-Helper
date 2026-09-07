@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+import { Loader2 } from 'lucide-react'
 import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider } from './context/AuthContext'
 import Layout from './components/layout/Layout'
@@ -8,29 +9,40 @@ import AuthLayout from './components/layout/AuthLayout'
 import AppLayout from './components/layout/AppLayout'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import Home from './pages/Home'
-import Login from './pages/auth/Login'
-import Signup from './pages/auth/Signup'
-import Dashboard from './pages/app/Dashboard'
-import OnPageScore from './pages/app/onpage/OnPageScore'
-import MetaTagGenerator from './pages/app/metatag/MetaTagGenerator'
-import SchemaMarkup from './pages/app/schema/SchemaMarkup'
-import RobotsAnalyzer from './pages/app/robots/RobotsAnalyzer'
-import KeywordResearch from './pages/app/keyword/KeywordResearch'
-import PageSpeed from './pages/app/pagespeed/PageSpeed'
-import TechnicalAudit from './pages/app/audit/TechnicalAudit'
-import ContentGenerator from './pages/app/content/ContentGenerator'
-import GscDashboard from './pages/app/gsc/GscDashboard'
-import ConnectGoogle from './pages/app/gsc/ConnectGoogle'
 import PageLoader from './components/common/PageLoader'
+
+// Everything past the homepage is code-split into its own chunk, loaded on
+// demand — most visitors only ever hit "/", so there's no reason their
+// first load should also parse all 9 tool pages' code up front.
+const Login = lazy(() => import('./pages/auth/Login'))
+const Signup = lazy(() => import('./pages/auth/Signup'))
+const Dashboard = lazy(() => import('./pages/app/Dashboard'))
+const OnPageScore = lazy(() => import('./pages/app/onpage/OnPageScore'))
+const MetaTagGenerator = lazy(() => import('./pages/app/metatag/MetaTagGenerator'))
+const SchemaMarkup = lazy(() => import('./pages/app/schema/SchemaMarkup'))
+const RobotsAnalyzer = lazy(() => import('./pages/app/robots/RobotsAnalyzer'))
+const KeywordResearch = lazy(() => import('./pages/app/keyword/KeywordResearch'))
+const PageSpeed = lazy(() => import('./pages/app/pagespeed/PageSpeed'))
+const TechnicalAudit = lazy(() => import('./pages/app/audit/TechnicalAudit'))
+const ContentGenerator = lazy(() => import('./pages/app/content/ContentGenerator'))
+const GscDashboard = lazy(() => import('./pages/app/gsc/GscDashboard'))
+const ConnectGoogle = lazy(() => import('./pages/app/gsc/ConnectGoogle'))
+
+// Brief fallback while a lazy route chunk downloads — only ever seen on a
+// slow connection's first visit to a given route, since the browser caches
+// the chunk after that.
+function RouteFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-bg">
+      <Loader2 size={28} className="animate-spin text-primary" />
+    </div>
+  )
+}
 
 function App() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-
-
-
-
     const id = requestAnimationFrame(() => {
       setTimeout(() => setLoading(false), 900)
     })
@@ -45,34 +57,36 @@ function App() {
           style: { background: 'var(--color-surface-card)', color: 'var(--color-text)', border: '1px solid var(--color-border)' },
         }} />
         <BrowserRouter>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Home />} />
-            </Route>
-
-            <Route element={<AuthLayout />}>
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-            </Route>
-
-            <Route element={<ProtectedRoute />}>
-              <Route element={<AppLayout />}>
-                <Route path="/app" element={<Dashboard />} />
-                <Route path="/app/onpage" element={<OnPageScore />} />
-                <Route path="/app/meta-tags" element={<MetaTagGenerator />} />
-                <Route path="/app/schema" element={<SchemaMarkup />} />
-                <Route path="/app/robots" element={<RobotsAnalyzer />} />
-                <Route path="/app/keyword" element={<KeywordResearch />} />
-                <Route path="/app/pagespeed" element={<PageSpeed />} />
-                <Route path="/app/audit" element={<TechnicalAudit />} />
-                <Route path="/app/content" element={<ContentGenerator />} />
-                <Route path="/app/gsc" element={<GscDashboard />} />
-                <Route path="/app/gsc/connect" element={<ConnectGoogle />} />
+          <Suspense fallback={<RouteFallback />}>
+            <Routes>
+              <Route element={<Layout />}>
+                <Route path="/" element={<Home />} />
               </Route>
-            </Route>
 
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+              <Route element={<AuthLayout />}>
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+              </Route>
+
+              <Route element={<ProtectedRoute />}>
+                <Route element={<AppLayout />}>
+                  <Route path="/app" element={<Dashboard />} />
+                  <Route path="/app/onpage" element={<OnPageScore />} />
+                  <Route path="/app/meta-tags" element={<MetaTagGenerator />} />
+                  <Route path="/app/schema" element={<SchemaMarkup />} />
+                  <Route path="/app/robots" element={<RobotsAnalyzer />} />
+                  <Route path="/app/keyword" element={<KeywordResearch />} />
+                  <Route path="/app/pagespeed" element={<PageSpeed />} />
+                  <Route path="/app/audit" element={<TechnicalAudit />} />
+                  <Route path="/app/content" element={<ContentGenerator />} />
+                  <Route path="/app/gsc" element={<GscDashboard />} />
+                  <Route path="/app/gsc/connect" element={<ConnectGoogle />} />
+                </Route>
+              </Route>
+
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </AuthProvider>
     </ThemeProvider>

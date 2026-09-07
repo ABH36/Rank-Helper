@@ -12,13 +12,10 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react'
-import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
 import Section from '../../components/common/Section'
-import RevealBox from '../../components/common/RevealBox'
+import WaveDivider from '../../components/common/WaveDivider'
+import TiltCard from '../../components/common/TiltCard'
 import { useAuth } from '../../context/AuthContext'
-
-const MotionLink = motion.create(Link)
 
 // Cycled across the cards so the grid reads as colorful rather than one
 // flat tone repeated twelve times — same theme-aware tokens (and same
@@ -120,52 +117,30 @@ const SERVICES = [
   },
 ].map((service, i) => ({ ...service, accent: ACCENTS[i % ACCENTS.length] }))
 
-// Flat, rounded, transparent glass rectangles — no rotation/3D — but with a
-// tasteful hover lift + glow + icon pop, so they still feel alive without
-// the heavier 3D-flip mechanics the grid previously used. Every card is a
-// real link now: signed-in visitors land straight in the dashboard, signed-
-// out visitors are prompted to log in first — same pattern as the navbar
-// logo and the hero's "Start Free" button.
+// A few drifting motes behind the grid — same deep-sea ambience as every
+// section above it.
+const MOTES = [
+  { left: '3%', top: '10%', size: 5, delay: 0 },
+  { left: '7%', top: '80%', size: 4, delay: 1.9 },
+  { left: '96%', top: '15%', size: 5, delay: 1 },
+  { left: '92%', top: '85%', size: 4, delay: 2.6 },
+]
+
 function ServiceCard({ service, index }) {
-  const { icon: Icon, title, description, stat, statLabel, accent } = service
+  const { icon, title, description, stat, statLabel, accent } = service
   const { isAuthenticated } = useAuth()
   const target = isAuthenticated ? '/app' : '/login'
 
   return (
-    <RevealBox direction="fade-up" delay={index * 0.04} threshold={0.08}>
-      <MotionLink
-        to={target}
-        initial="rest"
-        whileHover="hover"
-        className="group relative flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border border-border bg-surface-card/70 p-6 text-left shadow-sm backdrop-blur-md"
-        variants={{
-          rest: { y: 0, boxShadow: '0 1px 2px rgba(0,0,0,0.04)', borderColor: 'var(--color-border)' },
-          hover: { y: -6, boxShadow: '0 20px 44px -14px var(--glow)', borderColor: 'var(--color-primary)' },
-        }}
-        transition={{ type: 'spring', stiffness: 320, damping: 24 }}
+    <TiltCard icon={icon} title={title} description={description} accent={accent} index={index} to={target}>
+      <div
+        className="relative mt-6 flex items-baseline gap-2 border-t border-border pt-4"
+        style={{ transform: 'translateZ(24px)' }}
       >
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-1"
-          style={{ background: `linear-gradient(90deg, ${accent}, transparent)` }}
-        />
-        <div>
-          <motion.span
-            className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl"
-            style={{ background: `color-mix(in srgb, ${accent} 14%, transparent)`, color: accent }}
-            variants={{ rest: { scale: 1, rotate: 0 }, hover: { scale: 1.1, rotate: -6 } }}
-            transition={{ type: 'spring', stiffness: 380, damping: 18 }}
-          >
-            <Icon size={20} />
-          </motion.span>
-          <h3 className="font-heading text-lg font-normal text-text">{title}</h3>
-          <p className="mt-2 text-sm text-text-muted leading-relaxed">{description}</p>
-        </div>
-        <div className="mt-6 flex items-baseline gap-2 border-t border-border pt-4">
-          <span className="font-heading text-xl font-normal" style={{ color: accent }}>{stat}</span>
-          <span className="text-xs text-text-muted">{statLabel}</span>
-        </div>
-      </MotionLink>
-    </RevealBox>
+        <span className="font-heading text-xl font-normal" style={{ color: accent }}>{stat}</span>
+        <span className="text-xs text-text-muted">{statLabel}</span>
+      </div>
+    </TiltCard>
   )
 }
 
@@ -176,8 +151,30 @@ export default function Services() {
       eyebrow="12 Powerful Tools"
       title="Complete AI Suite for Modern Search Engine Optimization"
       subtitle="Purpose-built modules designed to supercharge your research, technical health, content, and real rankings."
+      className="relative"
     >
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {/* Deep-sea continuity from the section above: wave lead-in, a soft
+          underwater wash, and a couple of drifting motes — same language
+          used on every section from the hero down. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-1">
+        <WaveDivider gradientId="wave-services" />
+      </div>
+      <div
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(30,64,175,0.05) 0%, rgba(76,29,149,0.07) 50%, rgba(30,64,175,0.05) 100%)',
+        }}
+      />
+      {MOTES.map((m, i) => (
+        <span
+          key={i}
+          className="pointer-events-none absolute rounded-full bg-blue-200 animate-float-slow animate-pulse-glow"
+          style={{ left: m.left, top: m.top, width: m.size, height: m.size, animationDelay: `${m.delay}s` }}
+        />
+      ))}
+
+      <div className="relative grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {SERVICES.map((service, i) => (
           <ServiceCard key={service.title} service={service} index={i} />
         ))}

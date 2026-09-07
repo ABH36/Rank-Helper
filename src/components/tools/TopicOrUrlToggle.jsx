@@ -1,4 +1,5 @@
 import Input from '../common/Input'
+import AnimatedButton from '../common/AnimatedButton'
 
 // Enforces the backend's "exactly one of topic/url" rule at the UI level —
 // only one field is ever shown/editable at a time, so the unused one is
@@ -12,16 +13,15 @@ export default function TopicOrUrlToggle({ mode, onModeChange, topic, onTopicCha
           { value: 'topic', label: 'By topic' },
           { value: 'url', label: 'By URL' },
         ].map((opt) => (
-          <button
+          <AnimatedButton
             key={opt.value}
-            type="button"
             onClick={() => onModeChange(opt.value)}
-            className={`rounded-full px-4 py-1.5 text-sm transition-all ${
-              mode === opt.value ? 'bg-primary text-[#061006] shadow-sm' : 'text-text-muted hover:text-text'
+            className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+              mode === opt.value ? 'bg-primary text-on-primary shadow-sm' : 'text-text-muted hover:text-text'
             }`}
           >
             {opt.label}
-          </button>
+          </AnimatedButton>
         ))}
       </div>
 
