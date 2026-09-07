@@ -151,7 +151,7 @@ export default function Services() {
       eyebrow="12 Powerful Tools"
       title="Complete AI Suite for Modern Search Engine Optimization"
       subtitle="Purpose-built modules designed to supercharge your research, technical health, content, and real rankings."
-      className="relative"
+      className="relative overflow-hidden"
     >
       {/* Deep-sea continuity from the section above: wave lead-in, a soft
           underwater wash, and a couple of drifting motes — same language

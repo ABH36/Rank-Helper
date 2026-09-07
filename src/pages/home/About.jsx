@@ -466,8 +466,10 @@ export default function About() {
               </motion.div>
             </div>
 
-            {/* Step counter + copy */}
-            <div className="relative text-left">
+            {/* Step counter + copy — clips its own overflow so the halo
+                below (which deliberately bleeds past its own edges) can
+                never widen the page on narrow viewports. */}
+            <div className="relative overflow-hidden text-left">
               {/* Soft same-color halo behind the copy — the site-wide
                   bottom-right ribbon decoration (PageBackground.jsx) is
                   `fixed` to the viewport, and this panel stays pinned in
