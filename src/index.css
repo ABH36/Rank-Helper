@@ -10,19 +10,6 @@
    DESIGN TOKENS — @theme exposes these as Tailwind utility classes
 ═══════════════════════════════════════════════════════════════════════════ */
 @theme {
-  /* Brand emerald/green scale */
-  --color-brand-50:  #ecfdf5;
-  --color-brand-100: #d1fae5;
-  --color-brand-200: #a7f3d0;
-  --color-brand-300: #6ee7b7;
-  --color-brand-400: #34d399;
-  --color-brand-500: #10b981;
-  --color-brand-600: #059669;
-  --color-brand-700: #047857;
-  --color-brand-800: #065f46;
-  --color-brand-900: #064e3b;
-  --color-brand-950: #022c22;
-
   /* Semantic aliases — JS/JSX reads these; never hardcode hex in components */
   --color-bg:               var(--bg);
   --color-surface:          var(--surface);
@@ -213,12 +200,6 @@ body {
   100% { transform: translateX(-50%); }
 }
 
-/* Typing cursor blink */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
-
 /* Bubble rising the full height of its container — pure CSS instead of a
    per-instance Framer Motion animation, since these run continuously and
    in numbers (site-wide background + hero), and a CSS keyframe costs
@@ -251,7 +232,6 @@ body {
 .animate-float         { animation: float 6s ease-in-out infinite; }
 .animate-float-slow    { animation: float 9s ease-in-out infinite; }
 .animate-pulse-glow    { animation: pulseGlow 4s ease-in-out infinite; }
-.animate-blink         { animation: blink 1s step-end infinite; }
 .animate-bubble-rise   { animation-name: bubbleRise; animation-timing-function: linear; animation-iteration-count: infinite; }
 .animate-twinkle       { animation-name: twinkleDot; animation-timing-function: ease-in-out; animation-iteration-count: infinite; }
 .animate-caustic-drift { animation: causticDrift 34s ease-in-out infinite; }

@@ -18,7 +18,6 @@ export default function ScrambleText({ text, tag: Tag = 'span', className = '', 
     cancelAnimationFrame(frameRef.current)
     iterRef.current = 0
     const original = text
-    const totalFrames = original.length * 3   // ~3 frames per char to fully resolve
 
     const tick = () => {
       iterRef.current += 0.6
