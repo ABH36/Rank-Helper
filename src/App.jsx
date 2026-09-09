@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { Loader2 } from 'lucide-react'
 import { ThemeProvider } from './context/ThemeContext'
@@ -27,6 +27,18 @@ const TechnicalAudit = lazy(() => import('./pages/app/audit/TechnicalAudit'))
 const ContentGenerator = lazy(() => import('./pages/app/content/ContentGenerator'))
 const GscDashboard = lazy(() => import('./pages/app/gsc/GscDashboard'))
 const ConnectGoogle = lazy(() => import('./pages/app/gsc/ConnectGoogle'))
+
+// React Router doesn't reset scroll on navigation — without this, clicking a
+// link from partway down a long page (e.g. a Services card) lands on the new,
+// often shorter page at the same scroll offset, which can show blank space
+// below its content instead of the page itself.
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+  return null
+}
 
 // Brief fallback while a lazy route chunk downloads — only ever seen on a
 // slow connection's first visit to a given route, since the browser caches
@@ -57,6 +69,7 @@ function App() {
           style: { background: 'var(--color-surface-card)', color: 'var(--color-text)', border: '1px solid var(--color-border)' },
         }} />
         <BrowserRouter>
+          <ScrollToTop />
           <Suspense fallback={<RouteFallback />}>
             <Routes>
               <Route element={<Layout />}>
